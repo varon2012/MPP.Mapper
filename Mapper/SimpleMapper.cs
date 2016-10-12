@@ -8,8 +8,8 @@ namespace Mapper
 {
     public class SimpleMapper : IMapper
     {
-        private ICachedMapperCollection cachedCollection;
-        private ExpressionTreeCompiler compiler;
+        private readonly ICachedMapperCollection cachedCollection;
+        private readonly ExpressionTreeCompiler compiler;
         public SimpleMapper()
         {
             cachedCollection = new CachedMapperCollection();
@@ -29,6 +29,18 @@ namespace Mapper
             Type sourceType = typeof(TSource);
             Type destinationType = typeof(TDestination);
 
+            MapperUnit mapperUnit = new MapperUnit()
+            {
+                Source = sourceType,
+                Destination = destinationType,
+                Config = configuration
+            };
+
+            if (cachedCollection.ContainsKey(mapperUnit))
+            {
+                return ((Func<TSource, TDestination>)cachedCollection.GetValue(mapperUnit)).Invoke(source);
+            }
+
             var properties = TypeUtils.GetMappablePropertiesPairs(sourceType, destinationType);
             if (configuration != null)
             {
@@ -36,6 +48,8 @@ namespace Mapper
             }
             
             Func<TSource, TDestination> dest = compiler.Compile<TSource, TDestination>(properties);
+            cachedCollection.Add(mapperUnit, dest);
+
             return dest(source);
         }
     }

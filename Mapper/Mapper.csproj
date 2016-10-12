@@ -42,12 +42,14 @@
   <ItemGroup>
     <Compile Include="Cache\CachedMapperCollection.cs" />
     <Compile Include="Cache\ICachedMapperCollection.cs" />
+    <Compile Include="Cache\MapperUnitEqualityComparer.cs" />
     <Compile Include="Compilers\ExpressionTreeCompiler.cs" />
     <Compile Include="Compilers\IMapperCompiler.cs" />
     <Compile Include="Configuration\IGenericMapperConfiguration.cs" />
     <Compile Include="Configuration\IMapperConfiguration.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="Configuration\MapperConfiguration.cs" />
+    <Compile Include="MapperUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMapper.cs" />
     <Compile Include="Utils\TypeUtils.cs" />
