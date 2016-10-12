@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MapperTest
+﻿namespace MapperTest
 {
     public class Destination
     {

@@ -8,11 +8,11 @@ namespace Mapper.Configuration
 {
     public class MapperConfiguration<TSource, TDestination> : IGenericMapperConfiguration<TSource, TDestination>
     {
-        public List<KeyValuePair<PropertyInfo, PropertyInfo>> Config { get; }
+        public List<KeyValuePair<PropertyInfo, PropertyInfo>> Value { get; }
 
         public MapperConfiguration()
         {
-            Config = new List<KeyValuePair<PropertyInfo, PropertyInfo>>();
+            Value = new List<KeyValuePair<PropertyInfo, PropertyInfo>>();
         }
 
         public IGenericMapperConfiguration<TSource, TDestination> Register<TOutSource, TOutDestination>(
@@ -31,7 +31,7 @@ namespace Mapper.Configuration
             {
                 throw new ArgumentException("There is no setter for destination property");
             }
-            Config.Add(new KeyValuePair<PropertyInfo, PropertyInfo>(sourceProp, destProp));
+            Value.Add(new KeyValuePair<PropertyInfo, PropertyInfo>(sourceProp, destProp));
             return this;
         }
 

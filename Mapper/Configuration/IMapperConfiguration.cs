@@ -5,6 +5,6 @@ namespace Mapper.Configuration
 {
     public interface IMapperConfiguration
     {
-        List<KeyValuePair<PropertyInfo, PropertyInfo>> Config { get;  }
+        List<KeyValuePair<PropertyInfo, PropertyInfo>> Value { get;  }
     }
 }

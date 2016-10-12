@@ -25,6 +25,7 @@ namespace MapperTest
                 .Register(source => source.ThirdProperty, dest => dest.Test2);
             IMapper mapper = new SimpleMapper();
             Destination destination = mapper.Map(src, mapperConfiguration);
+            destination = mapper.Map(src, mapperConfiguration);
 
             Console.WriteLine("yep");
             Console.ReadLine();

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Mapper.Compilers
 {
-    public class ExpressionTreeCompiler : IMapperCompiler
+    internal class ExpressionTreeCompiler : IMapperCompiler
     {
         public Func<TInput, TOutput> Compile<TInput, TOutput>(IEnumerable<KeyValuePair<PropertyInfo, PropertyInfo>> properties)
         {

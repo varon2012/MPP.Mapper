@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Mapper.Cache
 {
-    class MapperUnitEqualityComparer : IEqualityComparer<MapperUnit>
+    internal class MapperUnitEqualityComparer : IEqualityComparer<MapperUnit>
     {
         public bool Equals(MapperUnit x, MapperUnit y)
         {

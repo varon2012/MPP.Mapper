@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Mapper.Compilers
 {
-    public interface IMapperCompiler
+    internal interface IMapperCompiler
     {
         Func<TInput, TOutput> Compile<TInput, TOutput> (IEnumerable<KeyValuePair<PropertyInfo, PropertyInfo>> properties);
     }

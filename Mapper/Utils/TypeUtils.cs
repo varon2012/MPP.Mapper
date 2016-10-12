@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace Mapper.Utils
 {
-    public static class TypeUtils
+    internal static class TypeUtils
     {
-        public static List<KeyValuePair<PropertyInfo, PropertyInfo>> GetMappablePropertiesPairs(Type sourceType, Type destinationType)
+        internal static List<KeyValuePair<PropertyInfo, PropertyInfo>> GetMappablePropertiesPairs(Type sourceType, Type destinationType)
         {
             if (sourceType == null) throw new ArgumentNullException(nameof(sourceType));
             if (destinationType == null) throw new ArgumentNullException(nameof(destinationType));
@@ -21,12 +21,11 @@ namespace Mapper.Utils
                         IsConvertibleTypes(sourceProp.PropertyType, destProp.PropertyType)
                     select new KeyValuePair< PropertyInfo, PropertyInfo > (sourceProp, destProp))
                     .ToList();
-
-
+            
             return properties;
         }
 
-        public static bool IsConvertibleTypes(Type source, Type destination)
+        internal static bool IsConvertibleTypes(Type source, Type destination)
         {
             return IsEqualRefType(source, destination) ||
                 IsEqualValueType(source, destination) ||

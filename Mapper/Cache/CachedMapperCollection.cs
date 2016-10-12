@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Mapper.Cache
 {
     internal class CachedMapperCollection : ICachedMapperCollection
     {
-        public Dictionary<MapperUnit, Delegate> CachedData { get;}
-        public CachedMapperCollection()
+        private Dictionary<MapperUnit, Delegate> CachedData { get;}
+        internal CachedMapperCollection()
         {
             CachedData = new Dictionary<MapperUnit, Delegate>(new MapperUnitEqualityComparer());
         }
