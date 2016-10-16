@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{938E5D8C-2920-4705-A984-F62955CB795D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapperTest</RootNamespace>
-    <AssemblyName>MapperTest</AssemblyName>
+    <RootNamespace>Mapper.Tests</RootNamespace>
+    <AssemblyName>Mapper.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,21 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Destination.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="CacheTests\CachedMapperCollectionTests\CachedMapperCollectionTests.cs" />
+    <Compile Include="CompilersTests\ExpressionTreeCompilerTests\ExpressionTreeCompilerTests.cs" />
+    <Compile Include="ConfigurationTests\MapperConfigurationTests\MapperConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source.cs" />
+    <Compile Include="SimpleMapperTests\SimpleMapperTests.cs" />
+    <Compile Include="UtilsTests\TypeUtilsTests\TypeUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mapper\Mapper.csproj">
-      <Project>{E65BB1F8-451E-4208-B5A1-B670440F4845}</Project>
-      <Name>Mapper</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

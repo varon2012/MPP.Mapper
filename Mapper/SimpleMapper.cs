@@ -12,10 +12,20 @@ namespace Mapper
     {
         private readonly ICachedMapperCollection cachedCollection;
         private readonly IMapperCompiler compiler;
-        public SimpleMapper()
+        public SimpleMapper() : this(new ExpressionTreeCompiler(), new CachedMapperCollection())
         {
-            cachedCollection = new CachedMapperCollection();
-            compiler = new ExpressionTreeCompiler();
+        }
+
+        //for testing purposes
+        internal SimpleMapper(IMapperCompiler compiler) : this(compiler, new CachedMapperCollection())
+        {
+        }
+
+        //for testing purposes
+        internal SimpleMapper(IMapperCompiler compiler, ICachedMapperCollection cachedCollection)
+        {
+            this.compiler = compiler;
+            this.cachedCollection = cachedCollection;
         }
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper", "Mapper.csproj", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperTest", "..\MapperTest\MapperTest.csproj", "{938E5D8C-2920-4705-A984-F62955CB795D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapper.Tests", "..\Mapper.Tests\Mapper.Tests.csproj", "{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{938E5D8C-2920-4705-A984-F62955CB795D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938E5D8C-2920-4705-A984-F62955CB795D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{938E5D8C-2920-4705-A984-F62955CB795D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD9B880-859F-4DE1-B21B-C9C33BA5AD24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

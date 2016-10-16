@@ -20,8 +20,18 @@ namespace Mapper.Cache
 
         public int GetHashCode(MapperUnit obj)
         {
-            var hashCode = obj.Source.GetHashCode() ^ obj.Destination.GetHashCode() ^ obj.Config.GetHashCode();
-            return hashCode;
+            unchecked
+            {
+                int primeNumForMultiply = 29;
+
+                int hash = 17;
+
+                hash = hash * primeNumForMultiply + obj.Source.GetHashCode();
+                hash = hash * primeNumForMultiply + obj.Destination.GetHashCode();
+                hash = hash * primeNumForMultiply + obj.Config.GetHashCode();
+
+                return hash;
+            }
         }
     }
 }
