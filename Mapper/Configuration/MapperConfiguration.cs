@@ -7,6 +7,8 @@ using Mapper.Utils;
 namespace Mapper.Configuration
 {
     public class MapperConfiguration<TSource, TDestination> : IGenericMapperConfiguration<TSource, TDestination>
+        where TDestination : new()
+
     {
         public List<KeyValuePair<PropertyInfo, PropertyInfo>> Value { get; }
 
@@ -31,7 +33,9 @@ namespace Mapper.Configuration
             {
                 throw new ArgumentException("There is no setter for destination property");
             }
+
             Value.Add(new KeyValuePair<PropertyInfo, PropertyInfo>(sourceProp, destProp));
+
             return this;
         }
 

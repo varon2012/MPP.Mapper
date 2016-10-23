@@ -1,11 +1,13 @@
 ﻿using System;
+using Mapper.UnitsForMapping;
 
 namespace Mapper.Cache
 {
     internal interface ICachedMapperCollection
     {
-        void Add(MapperUnit unit, Delegate func);
-        bool ContainsKey(MapperUnit unit);
-        Delegate GetValue(MapperUnit unit);
+        void Add(IMappingUnit unit, Delegate func);
+        bool ContainsKey(IMappingUnit unit);
+        Delegate GetValue(IMappingUnit unit);
+        long Count { get; }
     }
 }

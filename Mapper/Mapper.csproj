@@ -49,7 +49,8 @@
     <Compile Include="Configuration\IMapperConfiguration.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="Configuration\MapperConfiguration.cs" />
-    <Compile Include="MapperUnit.cs" />
+    <Compile Include="UnitsForMapping\IMappingUnit.cs" />
+    <Compile Include="UnitsForMapping\MappingUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMapper.cs" />
     <Compile Include="Utils\TypeUtils.cs" />

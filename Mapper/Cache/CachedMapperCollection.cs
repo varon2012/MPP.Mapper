@@ -1,29 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mapper.UnitsForMapping;
+
 
 namespace Mapper.Cache
 {
     internal class CachedMapperCollection : ICachedMapperCollection
     {
-        private Dictionary<MapperUnit, Delegate> CachedData { get;}
+        private readonly Dictionary<IMappingUnit, Delegate> cachedData;
         internal CachedMapperCollection()
         {
-            CachedData = new Dictionary<MapperUnit, Delegate>(new MapperUnitEqualityComparer());
+            cachedData = new Dictionary<IMappingUnit, Delegate>(new MapperUnitEqualityComparer());
         }
 
-        public bool ContainsKey(MapperUnit unit)
+        internal CachedMapperCollection(IEqualityComparer<IMappingUnit> equalityComparer)
         {
-            return CachedData.ContainsKey(unit);
+            cachedData = new Dictionary<IMappingUnit, Delegate>(equalityComparer);
         }
 
-        public void Add(MapperUnit unit, Delegate func)
+        public bool ContainsKey(IMappingUnit unit)
         {
-            CachedData.Add(unit, func);
+            return cachedData.ContainsKey(unit);
         }
 
-        public Delegate GetValue(MapperUnit unit)
+        public void Add(IMappingUnit unit, Delegate func)
         {
-            return CachedData[unit];
+            cachedData.Add(unit, func);
         }
+
+        public Delegate GetValue(IMappingUnit unit)
+        {
+            return cachedData[unit];
+        }
+
+        public long Count => cachedData.Count;
     }
 }

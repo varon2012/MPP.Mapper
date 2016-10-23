@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using Mapper.UnitsForMapping;
 
 namespace Mapper.Cache
 {
-    internal class MapperUnitEqualityComparer : IEqualityComparer<MapperUnit>
+    internal class MapperUnitEqualityComparer : IEqualityComparer<IMappingUnit>
     {
-        public bool Equals(MapperUnit x, MapperUnit y)
+        public bool Equals(IMappingUnit x, IMappingUnit y)
         {
             if ((x == null) && (y == null))
                 return true;
             if ((x == null) || (y == null))
                 return false;
-            if ((x.Source == y.Source) && (x.Destination == y.Destination) && (x.Config.Equals(y.Config)))
+
+            if ((x.Source == y.Source) && (x.Destination == y.Destination) && (Equals(x.Config, y.Config)))
             {
                 return true;
             }
@@ -18,20 +20,25 @@ namespace Mapper.Cache
             return false;
         }
 
-        public int GetHashCode(MapperUnit obj)
+        public int GetHashCode(IMappingUnit obj)
         {
+            int sourceHash = obj.Source?.GetHashCode() ?? 0;
+            int destinationHash = obj.Destination?.GetHashCode() ?? 0;
+            int configHash = obj.Config?.GetHashCode() ?? 0;
+
             unchecked
             {
                 int primeNumForMultiply = 29;
 
                 int hash = 17;
 
-                hash = hash * primeNumForMultiply + obj.Source.GetHashCode();
-                hash = hash * primeNumForMultiply + obj.Destination.GetHashCode();
-                hash = hash * primeNumForMultiply + obj.Config.GetHashCode();
+                hash = hash * primeNumForMultiply + sourceHash;
+                hash = hash * primeNumForMultiply + destinationHash;
+                hash = hash * primeNumForMultiply + configHash;
 
                 return hash;
             }
         }
+
     }
 }

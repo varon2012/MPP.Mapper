@@ -4,6 +4,7 @@ using System.Reflection;
 using Mapper.Cache;
 using Mapper.Compilers;
 using Mapper.Configuration;
+using Mapper.UnitsForMapping;
 using Mapper.Utils;
 
 namespace Mapper
@@ -28,64 +29,61 @@ namespace Mapper
             this.cachedCollection = cachedCollection;
         }
 
-        public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
-        {
-            return Map<TSource, TDestination>(source, null);
-        }
-
         public TDestination Map<TSource, TDestination>(
             TSource source, 
-            IGenericMapperConfiguration<TSource, TDestination> configuration)
+            IGenericMapperConfiguration<TSource, TDestination> configuration = null)
             where TDestination : new()
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
 
-            MapperUnit mapperUnit = CreateMapperUnit<TSource, TDestination>(configuration);
+            IMappingUnit mappingUnit = CreateMapperUnit<TSource, TDestination>(configuration);
 
-            Func<TSource, TDestination> compiledFunc = GetCompiledFunc<TSource, TDestination>(mapperUnit);
+            Func<TSource, TDestination> compiledFunc = GetCompiledFunc<TSource, TDestination>(mappingUnit);
 
             return compiledFunc(source);
         }
 
-        private MapperUnit CreateMapperUnit<TSource, TDestination>(IMapperConfiguration config)
+        private IMappingUnit CreateMapperUnit<TSource, TDestination>(IMapperConfiguration config)
         {
             Type sourceType = typeof(TSource);
             Type destinationType = typeof(TDestination);
-            MapperUnit mapperUnit = new MapperUnit()
+            MappingUnit mappingUnit = new MappingUnit()
             {
                 Source = sourceType,
                 Destination = destinationType,
                 Config = config
             };
-            return mapperUnit;
+            return mappingUnit;
         }
 
-        private Func<TSource, TDestination> GetCompiledFunc<TSource, TDestination>(MapperUnit mapperUnit)
+        private Func<TSource, TDestination> GetCompiledFunc<TSource, TDestination>(IMappingUnit mappingUnit)
+             where TDestination : new()
         {
-            if (IsCached(mapperUnit))
+            if (IsCached(mappingUnit))
             {
-                return ((Func<TSource, TDestination>)cachedCollection.GetValue(mapperUnit));
+                return ((Func<TSource, TDestination>)cachedCollection.GetValue(mappingUnit));
             }
 
-            var properties = GetAllMappablePropertiesPairs(mapperUnit);
+            var properties = GetAllMappablePropertiesPairs(mappingUnit);
 
             Func<TSource, TDestination> compiledFunc = compiler.Compile<TSource, TDestination>(properties);
 
-            cachedCollection.Add(mapperUnit, compiledFunc);
+            cachedCollection.Add(mappingUnit, compiledFunc);
 
             return compiledFunc;
         }
         
-        private bool IsCached(MapperUnit mapperUnit)
+        private bool IsCached(IMappingUnit mappingUnit)
         {
-            return cachedCollection.ContainsKey(mapperUnit);
+            return cachedCollection.ContainsKey(mappingUnit);
         }
 
-        private List<KeyValuePair<PropertyInfo, PropertyInfo>> GetAllMappablePropertiesPairs(MapperUnit mapperUnit)
+        private List<KeyValuePair<PropertyInfo, PropertyInfo>> GetAllMappablePropertiesPairs(IMappingUnit mappingUnit)
         {
-            var properties = TypeUtils.GetMappablePropertiesPairs(mapperUnit.Source, mapperUnit.Destination);
-            if (mapperUnit.Config != null)
+            var properties = TypeUtils.GetMappablePropertiesPairs(mappingUnit.Source, mappingUnit.Destination);
+            if (mappingUnit.Config != null)
             {
-                properties.AddRange(mapperUnit.Config.Value);
+                properties.AddRange(mappingUnit.Config.Value);
             }
 
             return properties;

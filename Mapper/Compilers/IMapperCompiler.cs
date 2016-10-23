@@ -6,6 +6,7 @@ namespace Mapper.Compilers
 {
     internal interface IMapperCompiler
     {
-        Func<TInput, TOutput> Compile<TInput, TOutput> (IEnumerable<KeyValuePair<PropertyInfo, PropertyInfo>> properties);
+        Func<TInput, TOutput> Compile<TInput, TOutput> (IEnumerable<KeyValuePair<PropertyInfo, PropertyInfo>> properties)
+             where TOutput : new();
     }
 }

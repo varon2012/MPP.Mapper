@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotMemory.Unit, Version=103.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\Mapper\packages\JetBrains.dotMemoryUnit.2.3.20160517.113140\lib\dotMemory.Unit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\Mapper\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\Mapper\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -45,8 +53,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheTests\CachedMapperCollectionTests\CachedMapperCollectionTests.cs" />
+    <Compile Include="CacheTests\CachedMapperCollectionTests\FakeMapperEqualityComparer.cs" />
+    <Compile Include="CacheTests\CachedMapperCollectionTests\FakeMappingUnit.cs" />
+    <Compile Include="CacheTests\MapperUnitEqualityComparerTests\FakeMapperConfiguration.cs" />
+    <Compile Include="CacheTests\MapperUnitEqualityComparerTests\FakeMappingUnit.cs" />
+    <Compile Include="CacheTests\MapperUnitEqualityComparerTests\FakeObjectWithProperties.cs" />
+    <Compile Include="CacheTests\MapperUnitEqualityComparerTests\MapperUnitEqualityComparerTests.cs" />
+    <Compile Include="CompilersTests\ExpressionTreeCompilerTests\Destination.cs" />
     <Compile Include="CompilersTests\ExpressionTreeCompilerTests\ExpressionTreeCompilerTests.cs" />
+    <Compile Include="CompilersTests\ExpressionTreeCompilerTests\Source.cs" />
+    <Compile Include="ConfigurationTests\MapperConfigurationTests\Destination.cs" />
     <Compile Include="ConfigurationTests\MapperConfigurationTests\MapperConfigurationTests.cs" />
+    <Compile Include="ConfigurationTests\MapperConfigurationTests\Source.cs" />
+    <Compile Include="ConfigurationTests\MapperConfigurationTests\SourceChild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleMapperTests\SimpleMapperTests.cs" />
     <Compile Include="UtilsTests\TypeUtilsTests\TypeUtilsTests.cs" />
@@ -54,7 +73,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Mapper\Mapper.csproj">
+      <Project>{e65bb1f8-451e-4208-b5a1-b670440f4845}</Project>
+      <Name>Mapper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

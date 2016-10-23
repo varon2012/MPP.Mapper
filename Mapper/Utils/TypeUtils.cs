@@ -19,7 +19,7 @@ namespace Mapper.Utils
                     where
                         destProp.CanWrite &&
                         IsConvertibleTypes(sourceProp.PropertyType, destProp.PropertyType)
-                    select new KeyValuePair< PropertyInfo, PropertyInfo > (sourceProp, destProp))
+                    select new KeyValuePair<PropertyInfo, PropertyInfo> (sourceProp, destProp))
                     .ToList();
             
             return properties;
