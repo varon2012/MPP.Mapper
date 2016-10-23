@@ -4,14 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mapper.Tests.ConfigurationTests.MapperConfigurationTests
+namespace Mapper.Tests.UtilsTests.TypeUtilsTests
 {
-    internal class Destination
+    class Destination
     {
         public int FirstProperty { get; set; }
         public string SecondProperty { get; set; }
-        public double ThirdProperty { get; set; }
+        public byte ThirdProperty { get; set; }
         public float FourthProperty { get; }
         public DateTime FifthProperty { get; set; }
+
+
+        public Destination ObjProperty { get; set; }
+
+
+        public int ImplicitlyConvertibleProperty { get; set; }
     }
 }

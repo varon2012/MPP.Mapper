@@ -62,7 +62,7 @@ namespace Mapper.Utils
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (destination == null) throw new ArgumentNullException(nameof(destination));
-
+            
             TypeCode sourceTypeCode = Type.GetTypeCode(source);
             TypeCode destTypeCode = Type.GetTypeCode(destination);
             switch (sourceTypeCode)
