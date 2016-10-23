@@ -36,14 +36,14 @@ namespace Mapper
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            IMappingUnit mappingUnit = CreateMapperUnit<TSource, TDestination>(configuration);
+            IMappingUnit mappingUnit = CreateMappingUnit<TSource, TDestination>(configuration);
 
             Func<TSource, TDestination> compiledFunc = GetCompiledFunc<TSource, TDestination>(mappingUnit);
 
-            return compiledFunc(source);
+            return (compiledFunc != null) ? compiledFunc.Invoke(source) : default(TDestination);
         }
 
-        private IMappingUnit CreateMapperUnit<TSource, TDestination>(IMapperConfiguration config)
+        private IMappingUnit CreateMappingUnit<TSource, TDestination>(IMapperConfiguration config)
         {
             Type sourceType = typeof(TSource);
             Type destinationType = typeof(TDestination);

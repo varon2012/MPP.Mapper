@@ -67,7 +67,9 @@
     <Compile Include="ConfigurationTests\MapperConfigurationTests\Source.cs" />
     <Compile Include="ConfigurationTests\MapperConfigurationTests\SourceChild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleMapperTests\Destination.cs" />
     <Compile Include="SimpleMapperTests\SimpleMapperTests.cs" />
+    <Compile Include="SimpleMapperTests\Source.cs" />
     <Compile Include="UtilsTests\TypeUtilsTests\Destination.cs" />
     <Compile Include="UtilsTests\TypeUtilsTests\Source.cs" />
     <Compile Include="UtilsTests\TypeUtilsTests\TypeUtilsTests.cs" />

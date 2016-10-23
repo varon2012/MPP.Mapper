@@ -89,6 +89,26 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
             Assert.DoesNotThrow(() => { compiler.Compile<Source, Destination>(propPairs); });
         }
 
+        [Test]
+        public void Compile_CorrectParamsPassed_CompiledFunctionCorrectlyMapProperties()
+        {
+            IMapperCompiler compiler = CreateCompiler();
+
+            var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
+            {
+                new KeyValuePair<PropertyInfo, PropertyInfo>(
+                    typeof(Source).GetProperty("FirstProperty"),
+                    typeof(Destination).GetProperty("FirstProperty")
+                )
+            };
+
+            var source = new Source() {FirstProperty = 5};
+
+            Destination destination =  compiler.Compile<Source, Destination>(propPairs)(source);
+
+            Assert.AreEqual(source.FirstProperty, destination.FirstProperty);
+        }
+
         private IMapperCompiler CreateCompiler()
         {
             return new ExpressionTreeCompiler();
