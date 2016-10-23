@@ -8,9 +8,8 @@ namespace Mapper.Cache
     internal class CachedMapperCollection : ICachedMapperCollection
     {
         private readonly Dictionary<IMappingUnit, Delegate> cachedData;
-        internal CachedMapperCollection()
+        internal CachedMapperCollection() : this(new MapperUnitEqualityComparer())
         {
-            cachedData = new Dictionary<IMappingUnit, Delegate>(new MapperUnitEqualityComparer());
         }
 
         internal CachedMapperCollection(IEqualityComparer<IMappingUnit> equalityComparer)

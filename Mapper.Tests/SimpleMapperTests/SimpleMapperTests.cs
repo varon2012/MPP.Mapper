@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Mapper.Cache;
 using Mapper.Compilers;
 using Mapper.Configuration;

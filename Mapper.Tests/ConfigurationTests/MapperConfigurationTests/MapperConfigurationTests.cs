@@ -1,5 +1,4 @@
-﻿using System;
-using Mapper.Configuration;
+﻿using Mapper.Configuration;
 using NUnit.Framework;
 
 namespace Mapper.Tests.ConfigurationTests.MapperConfigurationTests
