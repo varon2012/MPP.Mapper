@@ -21,6 +21,9 @@ namespace Mapper.Configuration
             Expression<Func<TSource, TOutSource>> sourcePropertyLambda,
             Expression<Func<TDestination, TOutDestination>> destinationPropertyLambda)
         {
+            if (sourcePropertyLambda == null) throw new ArgumentNullException(nameof(sourcePropertyLambda));
+            if (destinationPropertyLambda == null) throw new ArgumentNullException(nameof(destinationPropertyLambda));
+
             PropertyInfo sourceProp = GetPropertyInfo(sourcePropertyLambda);
             PropertyInfo destProp = GetPropertyInfo(destinationPropertyLambda);
 

@@ -16,14 +16,8 @@ namespace Mapper
         public SimpleMapper() : this(new ExpressionTreeCompiler(), new CachedMapperCollection())
         {
         }
-
-        //for testing purposes
-        internal SimpleMapper(IMapperCompiler compiler) : this(compiler, new CachedMapperCollection())
-        {
-        }
-
-        //for testing purposes
-        internal SimpleMapper(IMapperCompiler compiler, ICachedMapperCollection cachedCollection)
+        
+        public SimpleMapper(IMapperCompiler compiler, ICachedMapperCollection cachedCollection)
         {
             this.compiler = compiler;
             this.cachedCollection = cachedCollection;

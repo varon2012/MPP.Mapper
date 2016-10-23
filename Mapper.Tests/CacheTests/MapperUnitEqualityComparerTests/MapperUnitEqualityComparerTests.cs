@@ -14,76 +14,90 @@ namespace Mapper.Tests.CacheTests.MapperUnitEqualityComparerTests
         [Test]
         public void Equals_NullsPassed_TrueReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.True(comparer.Equals(null,null));
+            bool actual = comparerUnderTest.Equals(null, null);
+
+            Assert.True(actual);
         }
 
         [Test]
         public void Equals_NullAndObjPassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.False(comparer.Equals(null, CreateMappingUnit()));
+            bool actual = comparerUnderTest.Equals(null, CreateFakeMappingUnit());
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_ObjAndNullPassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.False(comparer.Equals(CreateMappingUnit(), null));
+            bool actual = comparerUnderTest.Equals(CreateFakeMappingUnit(), null);
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_TwoEmptyUnitsPassed_TrueReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.True(comparer.Equals(CreateMappingUnit(), CreateMappingUnit()));
+            bool actual = comparerUnderTest.Equals(CreateFakeMappingUnit(), CreateFakeMappingUnit());
+
+            Assert.True(actual);
         }
 
 
         [Test]
         public void Equals_UnitsWithDifferentSourcePassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            IMappingUnit x = CreateMappingUnit(typeof(int));
-            IMappingUnit y = CreateMappingUnit(typeof(float));
-            
-            Assert.False(comparer.Equals(x, y));
+            IMappingUnit x = CreateFakeMappingUnit(typeof(int));
+            IMappingUnit y = CreateFakeMappingUnit(typeof(float));
+
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_UnitsWithDifferentDestinationPassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            IMappingUnit x = CreateMappingUnit(null, typeof(float));
-            IMappingUnit y = CreateMappingUnit(null, typeof(int));
+            IMappingUnit x = CreateFakeMappingUnit(null, typeof(float));
+            IMappingUnit y = CreateFakeMappingUnit(null, typeof(int));
 
-            Assert.False(comparer.Equals(x, y));
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_UnitsWithDifferentEmptyConfigPassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
             IMapperConfiguration xConfig = new FakeMapperConfiguration(new List<KeyValuePair<PropertyInfo, PropertyInfo>>());
             IMapperConfiguration yConfig = new FakeMapperConfiguration(new List<KeyValuePair<PropertyInfo, PropertyInfo>>());
 
-            IMappingUnit x = CreateMappingUnit(null, null, xConfig);
-            IMappingUnit y = CreateMappingUnit(null, null, yConfig);
+            IMappingUnit x = CreateFakeMappingUnit(null, null, xConfig);
+            IMappingUnit y = CreateFakeMappingUnit(null, null, yConfig);
 
-            Assert.False(comparer.Equals(x, y));
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_UnitsWithDifferentConfigPassed_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
             IMapperConfiguration xConfig = new FakeMapperConfiguration(new List<KeyValuePair<PropertyInfo, PropertyInfo>>());
             IMapperConfiguration yConfig =
@@ -94,72 +108,80 @@ namespace Mapper.Tests.CacheTests.MapperUnitEqualityComparerTests
                         typeof(FakeObjectWithProperties).GetProperty("SecondProperty"))
                 });
             
-            IMappingUnit x = CreateMappingUnit(null, null, xConfig);
-            IMappingUnit y = CreateMappingUnit(null, null, yConfig);
+            IMappingUnit x = CreateFakeMappingUnit(null, null, xConfig);
+            IMappingUnit y = CreateFakeMappingUnit(null, null, yConfig);
 
-            Assert.False(comparer.Equals(x, y));
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.False(actual);
         }
 
         [Test]
         public void Equals_UnitsWithSameSourcePassed_TrueReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            IMappingUnit x = CreateMappingUnit(typeof(int));
-            IMappingUnit y = CreateMappingUnit(typeof(int));
+            IMappingUnit x = CreateFakeMappingUnit(typeof(int));
+            IMappingUnit y = CreateFakeMappingUnit(typeof(int));
+            
+            bool actual = comparerUnderTest.Equals(x, y);
 
-            Assert.True(comparer.Equals(x, y));
+            Assert.True(actual);
         }
 
         [Test]
         public void Equals_UnitsWithSameDestinationPassed_TrueReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            IMappingUnit x = CreateMappingUnit(null, typeof(float));
-            IMappingUnit y = CreateMappingUnit(null, typeof(float));
+            IMappingUnit x = CreateFakeMappingUnit(null, typeof(float));
+            IMappingUnit y = CreateFakeMappingUnit(null, typeof(float));
 
-            Assert.True(comparer.Equals(x, y));
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.True(actual);
         }
 
         [Test]
         public void Equals_UnitsWithSameConfigPassed_TrueReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
             IMapperConfiguration config = new FakeMapperConfiguration(new List<KeyValuePair<PropertyInfo, PropertyInfo>>());
 
-            IMappingUnit x = CreateMappingUnit(null, null, config);
-            IMappingUnit y = CreateMappingUnit(null, null, config);
+            IMappingUnit x = CreateFakeMappingUnit(null, null, config);
+            IMappingUnit y = CreateFakeMappingUnit(null, null, config);
 
-            Assert.True(comparer.Equals(x, y));
+            bool actual = comparerUnderTest.Equals(x, y);
+
+            Assert.True(actual);
         }
 
         [Test]
         public void GetHashCode_NullPassed_ExceptionThrown()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.Catch(()=> { comparer.GetHashCode(null); });
+            Assert.Catch<ArgumentNullException>(()=> { comparerUnderTest.GetHashCode(null); });
         }
 
         [Test]
         public void GetHashCode_EmptyUnitPassed_NotNullReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.NotNull(comparer.GetHashCode(CreateMappingUnit()));
+            Assert.DoesNotThrow(()=> { comparerUnderTest.GetHashCode(CreateFakeMappingUnit()); });
         }
 
         [Test]
         public void GetHashCode_NotEmptyUnitPassed_NotNullReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = CreateEqualityComparer();
+            IEqualityComparer<IMappingUnit> comparerUnderTest = CreateEqualityComparer();
 
-            Assert.NotNull(comparer.GetHashCode(CreateMappingUnit(typeof(int))));
+            Assert.DoesNotThrow(() => { comparerUnderTest.GetHashCode(CreateFakeMappingUnit(typeof(int))); });
         }
 
-        private IMappingUnit CreateMappingUnit(Type source = null, Type destination = null, IMapperConfiguration config = null)
+        private IMappingUnit CreateFakeMappingUnit(Type source = null, Type destination = null, IMapperConfiguration config = null)
         {
             return new FakeMappingUnit()
             {

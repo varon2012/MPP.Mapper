@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mapper.UnitsForMapping;
 
 namespace Mapper.Cache
@@ -22,6 +23,8 @@ namespace Mapper.Cache
 
         public int GetHashCode(IMappingUnit obj)
         {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+
             int sourceHash = obj.Source?.GetHashCode() ?? 0;
             int destinationHash = obj.Destination?.GetHashCode() ?? 0;
             int configHash = obj.Config?.GetHashCode() ?? 0;

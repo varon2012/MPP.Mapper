@@ -14,48 +14,48 @@ namespace Mapper.Tests.SimpleMapperTests
         [Test]
         public void Map_SourceNullPassed_ExceptionThrown()
         {
-            IMapper mapper = CreateMapper();
-            Assert.Catch(() => { mapper.Map<object, object>(null, null); });
+            IMapper mapperUnderTest = CreateMapper();
+            Assert.Catch<ArgumentNullException>(() => { mapperUnderTest.Map<object, object>(null, null); });
         }
 
         [Test]
         public void Map_CachedCollectionPassed_ContainsKeyCalled()
         {
-            ICachedMapperCollection cachedCollection = Substitute.For<ICachedMapperCollection>();
+            ICachedMapperCollection cachedCollectionMock = Substitute.For<ICachedMapperCollection>();
             
-            IMapper mapper = CreateMapper(null, cachedCollection);
+            IMapper mapperUnderTest = CreateMapper(null, cachedCollectionMock);
 
-            mapper.Map<Source, Destination>(new Source(), null);
+            mapperUnderTest.Map<Source, Destination>(new Source(), null);
 
-            cachedCollection.ReceivedWithAnyArgs().ContainsKey(null);
+            cachedCollectionMock.ReceivedWithAnyArgs().ContainsKey(null);
         }
 
         [Test]
         public void Map_CacheHit_GetFuncFromCacheCalled()
         {
-            ICachedMapperCollection cachedCollection = Substitute.For<ICachedMapperCollection>();
+            ICachedMapperCollection cachedCollectionMock = Substitute.For<ICachedMapperCollection>();
 
-            IMapper mapper = CreateMapper(null, cachedCollection);
+            IMapper mapperUnderTest = CreateMapper(null, cachedCollectionMock);
 
-            cachedCollection.ContainsKey(null).ReturnsForAnyArgs(true);
+            cachedCollectionMock.ContainsKey(null).ReturnsForAnyArgs(true);
 
-            mapper.Map<Source, Destination>(new Source(), null);
-            
-            cachedCollection.ReceivedWithAnyArgs().GetValue(null);
+            mapperUnderTest.Map<Source, Destination>(new Source(), null);
+
+            cachedCollectionMock.ReceivedWithAnyArgs().GetValue(null);
         }
 
         [Test]
         public void Map_CacheMiss_NewRecordAddedToCache()
         {
-            ICachedMapperCollection cachedCollection = Substitute.For<ICachedMapperCollection>();
+            ICachedMapperCollection cachedCollectionMock = Substitute.For<ICachedMapperCollection>();
 
-            IMapper mapper = CreateMapper(null, cachedCollection);
+            IMapper mapperUnderTest = CreateMapper(null, cachedCollectionMock);
 
-            cachedCollection.ContainsKey(null).ReturnsForAnyArgs(false);
+            cachedCollectionMock.ContainsKey(null).ReturnsForAnyArgs(false);
 
-            mapper.Map<Source, Destination>(new Source(), null);
+            mapperUnderTest.Map<Source, Destination>(new Source(), null);
 
-            cachedCollection.ReceivedWithAnyArgs().Add(null, null);
+            cachedCollectionMock.ReceivedWithAnyArgs().Add(null, null);
         }
 
         [Test]
@@ -64,11 +64,11 @@ namespace Mapper.Tests.SimpleMapperTests
             IMapperCompiler compilerMock = Substitute.For<IMapperCompiler>();
             ICachedMapperCollection cachedCollectionStub = Substitute.For<ICachedMapperCollection>();
             
-            IMapper mapper = CreateMapper(compilerMock, cachedCollectionStub);
+            IMapper mapperUnderTest = CreateMapper(compilerMock, cachedCollectionStub);
 
             cachedCollectionStub.ContainsKey(null).ReturnsForAnyArgs(true);
 
-            mapper.Map<Source, Destination>(new Source(), null);
+            mapperUnderTest.Map<Source, Destination>(new Source(), null);
 
             compilerMock.DidNotReceiveWithAnyArgs().Compile<Source, Destination>(null);
         }
@@ -79,11 +79,11 @@ namespace Mapper.Tests.SimpleMapperTests
             IMapperCompiler compilerMock = Substitute.For<IMapperCompiler>();
             ICachedMapperCollection cachedCollectionStub = Substitute.For<ICachedMapperCollection>();
 
-            IMapper mapper = CreateMapper(compilerMock, cachedCollectionStub);
+            IMapper mapperUnderTest = CreateMapper(compilerMock, cachedCollectionStub);
 
             cachedCollectionStub.ContainsKey(null).ReturnsForAnyArgs(false);
 
-            mapper.Map<Source, Destination>(new Source(), null);
+            mapperUnderTest.Map<Source, Destination>(new Source(), null);
 
             compilerMock.ReceivedWithAnyArgs().Compile<Source, Destination>(null);
         }

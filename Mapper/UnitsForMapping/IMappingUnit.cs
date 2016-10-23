@@ -3,7 +3,7 @@ using Mapper.Configuration;
 
 namespace Mapper.UnitsForMapping
 {
-    internal interface IMappingUnit
+    public interface IMappingUnit
     {
         Type Source { get; set; }
         Type Destination { get; set; }

@@ -3,7 +3,7 @@ using Mapper.UnitsForMapping;
 
 namespace Mapper.Cache
 {
-    internal interface ICachedMapperCollection
+    public interface ICachedMapperCollection
     {
         void Add(IMappingUnit unit, Delegate func);
         bool ContainsKey(IMappingUnit unit);

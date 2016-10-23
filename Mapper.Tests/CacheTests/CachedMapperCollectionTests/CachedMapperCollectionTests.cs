@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
 using Mapper.Cache;
 using Mapper.Configuration;
@@ -13,136 +14,133 @@ namespace Mapper.Tests.CacheTests.CachedMapperCollectionTests
         [Test]
         public void Count_EmptyCollection_CountIsZero()
         {
-            int expected = 0;
-            ICachedMapperCollection collection = CreateCachedMapperCollection();
-            Assert.AreEqual(expected, collection.Count);
+            long expected = 0;
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
+
+            long actual = collectionUnderTest.Count;
+
+            actual.Should().Be(expected);
         }
 
         [Test]
         public void Count_AddOneElement_CountIsOne()
         {
-            int expected = 1;
-            
-            IEqualityComparer<IMappingUnit> comparer = new FakeMapperEqualityComparer();
-            
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
+            long expected = 1;
 
-            collection.Add(CreateMappingUnit(), (Action)(() => { }));
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
             
-            Assert.AreEqual(expected, collection.Count);
+            collectionUnderTest.Add(CreateMappingUnit(), (Action)(() => { }));
+
+            long actual = collectionUnderTest.Count;
+
+            actual.Should().Be(expected);
         }
 
         [Test]
         public void Add_AddNullKey_ExceptionThrown()
         {
-            IEqualityComparer<IMappingUnit> comparer = new FakeMapperEqualityComparer();
-
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
             
-            Assert.Catch(() => { collection.Add(null, (Action) (() => { })); });
+            Assert.Catch<ArgumentException>(() => { collectionUnderTest.Add(null, (Action) (() => { })); });
         }
 
         [Test]
         public void Add_AddNullValue_ExceptionNotThrown()
         {
-            IEqualityComparer<IMappingUnit> comparer = new FakeMapperEqualityComparer();
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-
-            Assert.DoesNotThrow(() => { collection.Add(CreateMappingUnit(), null); });
+            Assert.DoesNotThrow(() => { collectionUnderTest.Add(CreateMappingUnit(), null); });
         }
 
         [Test]
         public void ContainsKey_NullPassed_ExceptionThrown()
         {
-            IEqualityComparer<IMappingUnit> comparer = new FakeMapperEqualityComparer();
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-
-            Assert.Catch(() => { collection.ContainsKey(null); });
+            Assert.Catch<ArgumentNullException>(() => { collectionUnderTest.ContainsKey(null); });
         }
 
         [Test]
         public void ContainsKey_EmptyCollection_FalseReturned()
         {
-            IEqualityComparer<IMappingUnit> comparer = new FakeMapperEqualityComparer();
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
+            bool actual = collectionUnderTest.ContainsKey(CreateMappingUnit());
 
-            Assert.False(collection.ContainsKey(CreateMappingUnit()));
+            Assert.False(actual);
         }
 
         [Test]
         public void ContainsKey_MissingElementPassed_FalseReturned()
         {
-            FakeMapperEqualityComparer comparer = new FakeMapperEqualityComparer();
+            FakeMapperEqualityComparer comparerStub = new FakeMapperEqualityComparer();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-            collection.Add(CreateMappingUnit(), (Action)(() => { }));
-            
-            comparer.ReturningHashCode = 113; //new random value
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection(comparerStub);
+            collectionUnderTest.Add(CreateMappingUnit(), (Action)(() => { }));
 
-            Assert.False(collection.ContainsKey(CreateMappingUnit()));
+            comparerStub.ReturningHashCode = 113; //new random value
+
+            bool actual = collectionUnderTest.ContainsKey(CreateMappingUnit());
+
+            Assert.False(actual);
         }
 
         [Test]
         public void ContainsKey_ExistingElementPassed_TrueReturned()
         {
-            FakeMapperEqualityComparer comparer = new FakeMapperEqualityComparer();
+            FakeMapperEqualityComparer comparerStub = new FakeMapperEqualityComparer();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-            collection.Add(CreateMappingUnit(), (Action)(() => { }));
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection(comparerStub);
+            collectionUnderTest.Add(CreateMappingUnit(), (Action)(() => { }));
 
             IMappingUnit unitToFind = CreateMappingUnit();
-            comparer.ReturningHashCode = 113; //new random value
-            collection.Add(unitToFind, (Action)(() => { }));
+            comparerStub.ReturningHashCode = 113; //new random value
+            collectionUnderTest.Add(unitToFind, (Action)(() => { }));
 
-            Assert.True(collection.ContainsKey(unitToFind));
+            bool actual = collectionUnderTest.ContainsKey(unitToFind);
+
+            Assert.True(actual);
         }
 
 
         [Test]
         public void GetValue_NullPassed_ExceptionThrown()
         {
-            FakeMapperEqualityComparer comparer = new FakeMapperEqualityComparer();
+            ICachedMapperCollection collection = CreateCachedMapperCollection();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-
-            Assert.Catch(() => { collection.GetValue(null); });
+            Assert.Catch<ArgumentNullException>(() => { collection.GetValue(null); });
         }
 
         [Test]
         public void GetValue_EmptyCollection_ExceptionThrown()
         {
-            FakeMapperEqualityComparer comparer = new FakeMapperEqualityComparer();
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
-
-            Assert.Catch(() => { collection.GetValue(CreateMappingUnit()); });
+            Assert.Catch<KeyNotFoundException>(() => { collectionUnderTest.GetValue(CreateMappingUnit()); });
         }
 
 
         [Test]
         public void GetValue_MissingKey_ExceptionThrown()
         {
-            FakeMapperEqualityComparer comparer = new FakeMapperEqualityComparer();
+            FakeMapperEqualityComparer comparerStub = new FakeMapperEqualityComparer();
 
-            ICachedMapperCollection collection = CreateCachedMapperCollection(comparer);
+            ICachedMapperCollection collectionUnderTest = CreateCachedMapperCollection(comparerStub);
 
-            collection.Add(CreateMappingUnit(), (Action)(() => { }));
+            collectionUnderTest.Add(CreateMappingUnit(), (Action)(() => { }));
 
-            comparer.ReturningHashCode = 113; //new random value
+            comparerStub.ReturningHashCode = 113; //new random value
             
-            Assert.Catch(() => { collection.GetValue(CreateMappingUnit()); });
+            Assert.Catch<KeyNotFoundException>(() => { collectionUnderTest.GetValue(CreateMappingUnit()); });
         }
 
         private ICachedMapperCollection CreateCachedMapperCollection(IEqualityComparer<IMappingUnit> equalityComparer = null  )
         {
-            return new CachedMapperCollection(equalityComparer ?? new MapperUnitEqualityComparer());
+            return new CachedMapperCollection(equalityComparer ?? new FakeMapperEqualityComparer());
         }
 
         
-        private IMappingUnit CreateMappingUnit(Type source = null, Type destination = null, IMapperConfiguration config = null)
+        private static IMappingUnit CreateMappingUnit(Type source = null, Type destination = null, IMapperConfiguration config = null)
         {
             return new FakeMappingUnit()
             {

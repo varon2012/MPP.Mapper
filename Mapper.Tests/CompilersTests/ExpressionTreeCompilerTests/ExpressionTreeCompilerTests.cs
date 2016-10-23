@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using FluentAssertions;
 using Mapper.Compilers;
 using NUnit.Framework;
 
@@ -11,23 +13,25 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
         [Test]
         public void Compile_NullPassed_ExceptionThrown()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
-            Assert.Catch(() => { compiler.Compile<object, object>(null); });
+            Assert.Catch<ArgumentNullException>(() => { compilerUnderTest.Compile<object, object>(null); });
         }
 
         [Test]
         public void Compile_EmptyCollectionPassed_NotNullValueReturned()
         {
-            IMapperCompiler compiler = CreateCompiler();
-            
-            Assert.NotNull(compiler.Compile<object, object>(new List<KeyValuePair<PropertyInfo, PropertyInfo>>()));
+            IMapperCompiler compilerUnderTest = CreateCompiler();
+
+            var actual = compilerUnderTest.Compile<object, object>(new List<KeyValuePair<PropertyInfo, PropertyInfo>>());
+
+            Assert.NotNull(actual);
         }
 
         [Test]
         public void Compile_UnassignablePropertyPairsPassed_ExceptionThrown()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
             var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
             {
@@ -37,13 +41,13 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
                 )
             };
 
-            Assert.Catch(() => { compiler.Compile<Source, Destination>(propPairs); });
+            Assert.Catch<InvalidOperationException>(() => { compilerUnderTest.Compile<Source, Destination>(propPairs); });
         }
 
         [Test]
         public void Compile_ExistingPropertyFromAnotherObjectPassed_ExceptionThrown()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
             var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
             {
@@ -53,13 +57,13 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
                 )
             };
 
-            Assert.Catch(() => { compiler.Compile<Source, Source>(propPairs); });
+            Assert.Catch<InvalidOperationException>(() => { compilerUnderTest.Compile<Source, Source>(propPairs); });
         }
 
         [Test]
         public void Compile_NonExistingPropertyFromAnotherObjectPassed_ExceptionThrown()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
             var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
             {
@@ -69,13 +73,13 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
                 )
             };
 
-            Assert.Catch(() => { compiler.Compile<object, object>(propPairs); });
+            Assert.Catch<InvalidOperationException>(() => { compilerUnderTest.Compile<object, object>(propPairs); });
         }
 
         [Test]
         public void Compile_CorrectParamsPassed_ExceptionNotThrown()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
             var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
             {
@@ -85,13 +89,15 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
                 )
             };
 
-            Assert.DoesNotThrow(() => { compiler.Compile<Source, Destination>(propPairs); });
+            Assert.DoesNotThrow(() => { compilerUnderTest.Compile<Source, Destination>(propPairs); });
         }
 
         [Test]
         public void Compile_CorrectParamsPassed_CompiledFunctionCorrectlyMapProperties()
         {
-            IMapperCompiler compiler = CreateCompiler();
+            int expected = 5;
+
+            IMapperCompiler compilerUnderTest = CreateCompiler();
 
             var propPairs = new List<KeyValuePair<PropertyInfo, PropertyInfo>>()
             {
@@ -101,11 +107,13 @@ namespace Mapper.Tests.CompilersTests.ExpressionTreeCompilerTests
                 )
             };
 
-            var source = new Source() {FirstProperty = 5};
+            var source = new Source() {FirstProperty = expected};
+            
+            Destination destination = compilerUnderTest.Compile<Source, Destination>(propPairs)(source);
 
-            Destination destination =  compiler.Compile<Source, Destination>(propPairs)(source);
+            int actual = destination.FirstProperty;
 
-            Assert.AreEqual(source.FirstProperty, destination.FirstProperty);
+            actual.Should().Be(expected);
         }
 
         private IMapperCompiler CreateCompiler()
