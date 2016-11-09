@@ -42,6 +42,9 @@
   <ItemGroup>
     <Compile Include="DtoMapper.cs" />
     <Compile Include="IMapper.cs" />
+    <Compile Include="MappingEntryInfo.cs" />
+    <Compile Include="MappingFunctionsCache.cs" />
+    <Compile Include="MappingFunctionsFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
