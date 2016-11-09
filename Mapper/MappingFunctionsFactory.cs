@@ -28,14 +28,13 @@ namespace Mapper
             KeyValuePair<PropertyInfo, PropertyInfo>[] mappingProperties = GetMappingProperties(mappingEntryInfo);
 
             ParameterExpression parameterExpression = Expression.Parameter(typeof(TSource), "source");        
-            MemberBinding[] memberBindings = new MemberBinding[mappingProperties.Length];
+            List<MemberBinding> memberBindings = new List<MemberBinding>(mappingProperties.Length);
 
-            for (int i = 0; i < mappingProperties.Length; i++)
+            foreach (KeyValuePair<PropertyInfo, PropertyInfo> currentMapping in mappingProperties)
             {
-                KeyValuePair<PropertyInfo, PropertyInfo> currentMapping = mappingProperties[i];
                 Expression propertyAccessExpression = Expression.Property(parameterExpression, currentMapping.Key);
                 Expression convertExpression = Expression.Convert(propertyAccessExpression, currentMapping.Value.PropertyType);
-                memberBindings[i] = Expression.Bind(currentMapping.Value, convertExpression);
+                memberBindings.Add(Expression.Bind(currentMapping.Value, convertExpression));
             }
 
             Expression memberInitExpression = Expression.MemberInit(Expression.New(typeof(TDestination)), memberBindings);
