@@ -37,6 +37,7 @@ namespace Mapper
             else
             {
                 result = _mappingFunctionsFactory.CreateMappingFunction<TSource, TDestination>(mappingEntryInfo);
+                _mappingFunctionsCache.AddToCache(mappingEntryInfo, result);
             }
 
             return result;
