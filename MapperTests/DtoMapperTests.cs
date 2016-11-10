@@ -50,24 +50,43 @@ namespace Mapper.Tests
         }
 
         [Fact]
-        public void Map_CacheMiss_GetCacheForDidNotCalled()
+        public void Map_CacheMiss_GetCacheForDidNotCalled_CreateMappingFunctionCalled()
         {
             var mockCache = new Mock<IMappingFunctionsCache>();
             mockCache.Setup(cache => cache.HasCacheFor(It.IsAny<MappingEntryInfo>())).Returns(false);
-            IMapper mapper = new DtoMapper(mockCache.Object);
+
+            Mock<IMappingFunctionsFactory> mockFactory = CreateFakeMappingFunctionsFactory();
+            
+            IMapper mapper = new DtoMapper(mockCache.Object, mockFactory.Object);
             mapper.Map<object, object>(new object());
+
             mockCache.Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>()), Times.Never);
+            mockFactory.Verify(factory => factory.CreateMappingFunction<object, object>(It.IsAny<MappingEntryInfo>()), Times.Once);
         }
 
         [Fact]
-        public void Map_CacheHit_GetCacheForCalled()
+        public void Map_CacheHit_GetCacheForCalled_CreateMappingFunctionDidNotCalled()
         {
             var mockCache = new Mock<IMappingFunctionsCache>();
             mockCache.Setup(mock => mock.HasCacheFor(It.IsAny<MappingEntryInfo>())).Returns(true);
             mockCache.Setup(mock => mock.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>())).Returns(x => x);
-            IMapper mapper = new DtoMapper(mockCache.Object);
+
+            Mock<IMappingFunctionsFactory> mockFactory = CreateFakeMappingFunctionsFactory();
+
+            IMapper mapper = new DtoMapper(mockCache.Object, mockFactory.Object);
             mapper.Map<object, object>(new object());
+
             mockCache.Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>()), Times.Once);
+            mockFactory.Verify(factory => factory.CreateMappingFunction<object, object>(It.IsAny<MappingEntryInfo>()), Times.Never);
+        }
+
+        // Internals
+        Mock<IMappingFunctionsFactory> CreateFakeMappingFunctionsFactory()
+        {
+            var result = new Mock<IMappingFunctionsFactory>();
+            result.Setup(factory => factory.CreateMappingFunction<object, object>(It.IsAny<MappingEntryInfo>())).Returns(x => x);
+
+            return result;
         }
     }
 }
