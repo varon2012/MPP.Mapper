@@ -11,6 +11,20 @@ namespace Mapper.Tests
 {
     public class DtoMapperTests
     {
+        private static readonly Source Source = new Source
+        {
+            FirstProperty = 1,
+            SecondProperty = "a",
+            ThirdProperty = 3.14,
+            FourthProperty = 2
+        };
+
+        private static readonly Destination Expected = new Destination
+        {
+            FirstProperty = Source.FirstProperty,
+            SecondProperty = Source.SecondProperty,
+        };
+
         [Fact]
         public void Map_NullPassed_ExceptionThrown()
         {
@@ -19,26 +33,20 @@ namespace Mapper.Tests
         }
 
         [Fact]
-        public void Map_TwoCompatibleFields_TwoFieldsAssigned()
+        public void Map_MappingWithoutCache()
         {
             IMapper mapper = new DtoMapper();
+            Destination actual = mapper.Map<Source, Destination>(Source);
+            Assert.Equal(Expected, actual);
+        }
 
-            var source = new Source
-            {
-                FirstProperty = 1,
-                SecondProperty = "a",
-                ThirdProperty = 3.14,
-                FourthProperty = 2
-            };
-
-            var expected = new Destination
-            {
-                FirstProperty = source.FirstProperty,
-                SecondProperty = source.SecondProperty,
-            };
-
-            Destination actual = mapper.Map<Source, Destination>(source);
-            Assert.Equal(expected, actual);
+        [Fact]
+        public void Map_MappingUsingCache()
+        {
+            IMapper mapper = new DtoMapper();
+            mapper.Map<Source, Destination>(Source); //create cache for "Source -> Destination" pair
+            Destination actual = mapper.Map<Source, Destination>(Source);
+            Assert.Equal(Expected, actual);
         }
 
         [Fact]
