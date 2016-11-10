@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Mapper
 {
-    internal class MappingFunctionsFactory
+    internal class MappingFunctionsFactory : IMappingFunctionsFactory
     {
         private static readonly Dictionary<Type, HashSet<Type>> ImplicitNumberConversions = new Dictionary<Type, HashSet<Type>> () {
             { typeof(sbyte), new HashSet<Type> { typeof(short), typeof(int), typeof(long), typeof(float), typeof(double), typeof(decimal) } },

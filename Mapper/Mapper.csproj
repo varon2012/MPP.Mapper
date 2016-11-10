@@ -43,6 +43,7 @@
     <Compile Include="DtoMapper.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMappingFunctionsCache.cs" />
+    <Compile Include="IMappingFunctionsFactory.cs" />
     <Compile Include="MappingEntryInfo.cs" />
     <Compile Include="MappingFunctionsCache.cs" />
     <Compile Include="MappingFunctionsFactory.cs" />

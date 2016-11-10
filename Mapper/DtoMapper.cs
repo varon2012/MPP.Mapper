@@ -5,13 +5,14 @@ namespace Mapper
     public class DtoMapper : IMapper
     {
         private readonly IMappingFunctionsCache _mappingFunctionsCache;
-        private readonly MappingFunctionsFactory _mappingFunctionsFactory = new MappingFunctionsFactory();
+        private readonly IMappingFunctionsFactory _mappingFunctionsFactory;
 
-        public DtoMapper() : this(new MappingFunctionsCache()) { }
+        public DtoMapper() : this(new MappingFunctionsCache(), new MappingFunctionsFactory()) { }
 
-        public DtoMapper(IMappingFunctionsCache mappingFunctionsCache)
+        public DtoMapper(IMappingFunctionsCache mappingFunctionsCache, IMappingFunctionsFactory mappingFunctionsFactory)
         {
             _mappingFunctionsCache = mappingFunctionsCache;
+            _mappingFunctionsFactory = mappingFunctionsFactory;
         }
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
