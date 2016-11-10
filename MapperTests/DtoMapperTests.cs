@@ -53,7 +53,12 @@ namespace Mapper.Tests
         [Fact]
         public void Map_CacheHit_GetCacheForCalled()
         {
-            Assert.True(false, "Not implemented");
+            var mockCache = new Mock<IMappingFunctionsCache>();
+            mockCache.Setup(mock => mock.HasCacheFor(It.IsAny<MappingEntryInfo>())).Returns(true);
+            mockCache.Setup(mock => mock.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>())).Returns(x => x);
+            IMapper mapper = new DtoMapper(mockCache.Object);
+            mapper.Map<object, object>(new object());
+            mockCache.Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>()), Times.Once);
         }
     }
 }
