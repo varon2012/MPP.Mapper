@@ -4,8 +4,15 @@ namespace Mapper
 {
     public class DtoMapper : IMapper
     {
-        private readonly MappingFunctionsCache _mappingFunctionsCache = new MappingFunctionsCache();
+        private readonly IMappingFunctionsCache _mappingFunctionsCache;
         private readonly MappingFunctionsFactory _mappingFunctionsFactory = new MappingFunctionsFactory();
+
+        public DtoMapper() : this(new MappingFunctionsCache()) { }
+
+        public DtoMapper(IMappingFunctionsCache mappingFunctionsCache)
+        {
+            _mappingFunctionsCache = mappingFunctionsCache;
+        }
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {

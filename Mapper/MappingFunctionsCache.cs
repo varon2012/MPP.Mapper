@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Mapper
 {
-    internal class MappingFunctionsCache
+    internal class MappingFunctionsCache : IMappingFunctionsCache
     {
         private readonly Dictionary<MappingEntryInfo, Delegate> _cache = new Dictionary<MappingEntryInfo, Delegate>();
 
