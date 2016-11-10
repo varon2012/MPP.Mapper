@@ -31,10 +31,10 @@ namespace Mapper.Tests
                 FourthProperty = 2
             };
 
-            Destination expected = new Destination
+            var expected = new Destination
             {
-                FirstProperty = 1,
-                SecondProperty = "a",
+                FirstProperty = source.FirstProperty,
+                SecondProperty = source.SecondProperty,
             };
 
             Destination actual = mapper.Map<Source, Destination>(source);
