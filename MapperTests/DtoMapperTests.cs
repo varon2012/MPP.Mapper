@@ -44,10 +44,10 @@ namespace Mapper.Tests
         [Fact]
         public void Map_CacheMiss_GetCacheForDidNotCalled()
         {
-            var mockCache = new Mock<IMappingFunctionsCache>();
-            IMapper mapper = new DtoMapper(mockCache.Object);
+            var mockCache = Mock.Of<IMappingFunctionsCache>();
+            IMapper mapper = new DtoMapper(mockCache);
             mapper.Map<object, object>(new object());
-            mockCache.Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>()), Times.Never);
+            Mock.Get(mockCache).Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingEntryInfo>()), Times.Never);
         }
 
         [Fact]
