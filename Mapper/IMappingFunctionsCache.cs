@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    public interface IMappingFunctionsCache
+    internal interface IMappingFunctionsCache
     {
         void AddToCache<TSource, TDestination>(MappingEntryInfo mappingEntryInfo, Func<TSource, TDestination> mappingFunction);
         Func<TSource, TDestination> GetCacheFor<TSource, TDestination>(MappingEntryInfo mappingEntryInfo);

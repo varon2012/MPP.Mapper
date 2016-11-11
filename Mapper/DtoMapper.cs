@@ -2,18 +2,13 @@
 
 namespace Mapper
 {
+    
     public class DtoMapper : IMapper
     {
         private readonly IMappingFunctionsCache _mappingFunctionsCache;
         private readonly IMappingFunctionsFactory _mappingFunctionsFactory;
 
         public DtoMapper() : this(new MappingFunctionsCache(), new MappingFunctionsFactory()) { }
-
-        public DtoMapper(IMappingFunctionsCache mappingFunctionsCache, IMappingFunctionsFactory mappingFunctionsFactory)
-        {
-            _mappingFunctionsCache = mappingFunctionsCache;
-            _mappingFunctionsFactory = mappingFunctionsFactory;
-        }
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
@@ -34,6 +29,11 @@ namespace Mapper
         }
 
         //Internals
+        internal DtoMapper(IMappingFunctionsCache mappingFunctionsCache, IMappingFunctionsFactory mappingFunctionsFactory)
+        {
+            _mappingFunctionsCache = mappingFunctionsCache;
+            _mappingFunctionsFactory = mappingFunctionsFactory;
+        }
 
         private Func<TSource, TDestination> GetMappingFunc<TSource, TDestination>(MappingEntryInfo mappingEntryInfo) where TDestination : new()
         {
