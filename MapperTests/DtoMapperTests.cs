@@ -81,7 +81,7 @@ namespace Mapper.Tests
         }
 
         // Internals
-        Mock<IMappingFunctionsFactory> CreateFakeMappingFunctionsFactory()
+        private Mock<IMappingFunctionsFactory> CreateFakeMappingFunctionsFactory()
         {
             var result = new Mock<IMappingFunctionsFactory>();
             result.Setup(factory => factory.CreateMappingFunction<object, object>(It.IsAny<MappingEntryInfo>())).Returns(x => x);
