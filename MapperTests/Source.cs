@@ -2,9 +2,11 @@
 {
     internal sealed class Source
     {
-        public int FirstProperty { get; set; }
-        public string SecondProperty { get; set; }
-        public double ThirdProperty { get; set; }
-        public short FourthProperty { get; set; }
+        public int CanConvert { get; set; }
+        public string SameType { get; set; }
+        public double CantConvert { get; set; }
+        public FooSubclass SubclassAndClass { get; set; }
+        public string Name { get; set; }
+        public string CantAssign { get; set; }
     }
 }

@@ -5,10 +5,12 @@ namespace Mapper.Tests
 {
     internal sealed class Destination
     {
-        private bool Equals(Destination other)
-        {
-            return FirstProperty == other.FirstProperty && string.Equals(SecondProperty, other.SecondProperty) && ThirdProperty.Equals(other.ThirdProperty) && FourthProperty.Equals(other.FourthProperty);
-        }
+        public long CanConvert { get; set; }
+        public string SameType { get; set; }
+        public float CantConvert { get; set; }
+        public Foo SubclassAndClass { get; set; }
+        public string FirstName { get; set; }
+        public object CantAssign { get; } = new object();
 
         public override bool Equals(object obj)
         {
@@ -21,17 +23,20 @@ namespace Mapper.Tests
         {
             unchecked
             {
-                var hashCode = FirstProperty.GetHashCode();
-                hashCode = (hashCode*397) ^ (SecondProperty != null ? SecondProperty.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ ThirdProperty.GetHashCode();
-                hashCode = (hashCode*397) ^ FourthProperty.GetHashCode();
+                var hashCode = CanConvert.GetHashCode();
+                hashCode = (hashCode*397) ^ (SameType != null ? SameType.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ CantConvert.GetHashCode();
+                hashCode = (hashCode*397) ^ (SubclassAndClass != null ? SubclassAndClass.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (FirstName != null ? FirstName.GetHashCode() : 0);
                 return hashCode;
             }
         }
 
-        public long FirstProperty { get; set; }
-        public string SecondProperty { get; set; }
-        public float ThirdProperty { get; set; }
-        public DateTime FourthProperty { get; set; }
+        // Internals
+
+        private bool Equals(Destination other)
+        {
+            return CanConvert == other.CanConvert && string.Equals(SameType, other.SameType) && CantConvert.Equals(other.CantConvert) && Equals(SubclassAndClass, other.SubclassAndClass) && string.Equals(FirstName, other.FirstName);
+        }
     }
 }

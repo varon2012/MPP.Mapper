@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    public class MappingEntryInfo
+    internal class MappingTypesPair
     {
         public Type Source { get; set; }
         public Type Destination { get; set; }
@@ -11,8 +11,8 @@ namespace Mapper
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(MappingEntryInfo)) return false;
-            return Equals((MappingEntryInfo) obj);
+            if (obj.GetType() != typeof(MappingTypesPair)) return false;
+            return Equals((MappingTypesPair) obj);
         }
 
         public override int GetHashCode()
@@ -25,7 +25,7 @@ namespace Mapper
 
         // Internals
 
-        protected bool Equals(MappingEntryInfo other)
+        protected bool Equals(MappingTypesPair other)
         {
             return Source == other.Source && Destination == other.Destination;
         }
