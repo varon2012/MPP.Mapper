@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Mapper
 {
-    internal interface IMappingFunctionsFactory
+    public interface IMappingFunctionsFactory
     {
         Func<TSource, TDestination> CreateMappingFunction<TSource, TDestination>(List<MappingPropertiesPair> mappingProperties) where TDestination : new();
     }

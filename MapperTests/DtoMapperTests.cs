@@ -37,7 +37,7 @@ namespace Mapper.Tests
         [Fact]
         public void Map_NullPassed_ExceptionThrown()
         {
-            IMapper mapper = CreateMapper();
+            IMapper mapper = new DtoMapper();
 
             Assert.Throws<ArgumentNullException>(() => mapper.Map<object, object>(null));
         }
@@ -45,7 +45,7 @@ namespace Mapper.Tests
         [Fact]
         public void Map_SimpleMapping()
         {
-            IMapper mapper = CreateMapper();
+            IMapper mapper = new DtoMapper();
 
             Destination actual = mapper.Map<Source, Destination>(Source);
 
@@ -55,7 +55,7 @@ namespace Mapper.Tests
         [Fact]
         public void Map_MappingUsingCache()
         {
-            IMapper mapper = CreateMapper();
+            IMapper mapper = new DtoMapper();
             mapper.Map<Source, Destination>(Source); //create cache for "Source -> Destination" pair
 
             Destination actual = mapper.Map<Source, Destination>(Source);
@@ -68,7 +68,7 @@ namespace Mapper.Tests
         {
             MapperConfiguration mapperConfiguration = new MapperConfiguration();
             mapperConfiguration.Register<Source, Destination, string>(source => source.Name, destination => destination.FirstName);
-            IMapper mapper = CreateMapper(mapperConfiguration: mapperConfiguration);
+            IMapper mapper = new DtoMapper(mapperConfiguration);
 
             Destination actual = mapper.Map<Source, Destination>(Source);
 
@@ -81,7 +81,7 @@ namespace Mapper.Tests
             var mockCache = new Mock<IMappingFunctionsCache>();
             mockCache.Setup(cache => cache.HasCacheFor(It.IsAny<MappingTypesPair>())).Returns(false);
             Mock<IMappingFunctionsFactory> mockFactory = CreateFakeMappingFunctionsFactory();            
-            IMapper mapper = CreateMapper(mockCache.Object, mockFactory.Object);
+            IMapper mapper = new DtoMapper(mockCache.Object, mockFactory.Object);
 
             mapper.Map<object, object>(new object());
 
@@ -98,7 +98,7 @@ namespace Mapper.Tests
 
             Mock<IMappingFunctionsFactory> mockFactory = CreateFakeMappingFunctionsFactory();
 
-            IMapper mapper = CreateMapper(mockCache.Object, mockFactory.Object);
+            IMapper mapper = new DtoMapper(mockCache.Object, mockFactory.Object);
             mapper.Map<object, object>(new object());
 
             mockCache.Verify(cache => cache.GetCacheFor<object, object>(It.IsAny<MappingTypesPair>()), Times.Once);
@@ -106,17 +106,6 @@ namespace Mapper.Tests
         }
 
         // Internals
-
-        private IMapper CreateMapper(IMappingFunctionsCache mappingFunctionsCache = null,
-            IMappingFunctionsFactory mappingFunctionsFactory = null, 
-            MapperConfiguration mapperConfiguration = null)
-        {
-            mapperConfiguration = mapperConfiguration ?? new MapperConfiguration();
-            mappingFunctionsFactory = mappingFunctionsFactory ?? new MappingFunctionsFactory();
-            mappingFunctionsCache = mappingFunctionsCache ?? new MappingFunctionsCache();
-
-            return new DtoMapper(mappingFunctionsCache, mappingFunctionsFactory, mapperConfiguration);
-        }
 
         private Mock<IMappingFunctionsFactory> CreateFakeMappingFunctionsFactory()
         {

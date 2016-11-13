@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    internal class MappingPropertiesPair
+    public class MappingPropertiesPair
     {
         public PropertyInfo SourceProperty { get; set; }
         public PropertyInfo DestinationProperty { get; set; }

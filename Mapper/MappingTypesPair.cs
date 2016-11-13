@@ -2,7 +2,7 @@
 
 namespace Mapper
 {
-    internal class MappingTypesPair
+    public class MappingTypesPair
     {
         public Type Source { get; set; }
         public Type Destination { get; set; }

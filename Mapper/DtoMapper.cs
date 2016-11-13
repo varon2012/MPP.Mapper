@@ -19,6 +19,16 @@ namespace Mapper
             new MappingFunctionsFactory(), 
             mapperConfiguration) { }
 
+        public DtoMapper(IMappingFunctionsCache mappingFunctionsCache = null,
+            IMappingFunctionsFactory mappingFunctionsFactory = null,
+            MapperConfiguration mapperConfiguration = null)
+        {
+            _mappingFunctionsCache = mappingFunctionsCache ?? new MappingFunctionsCache();
+            _mappingFunctionsFactory = mappingFunctionsFactory ?? new MappingFunctionsFactory();
+            _mapperConfiguration = mapperConfiguration ?? new MapperConfiguration();
+        }
+
+
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
             if (source == null)
@@ -38,15 +48,6 @@ namespace Mapper
         }
 
         //Internals
-
-        internal DtoMapper(IMappingFunctionsCache mappingFunctionsCache, 
-            IMappingFunctionsFactory mappingFunctionsFactory, 
-            MapperConfiguration mapperConfiguration)
-        {
-            _mappingFunctionsCache = mappingFunctionsCache;
-            _mappingFunctionsFactory = mappingFunctionsFactory;
-            _mapperConfiguration = mapperConfiguration;
-        }
 
         private Func<TSource, TDestination> GetMappingFunction<TSource, TDestination>(MappingTypesPair mappingEntryInfo) 
             where TDestination : new()
