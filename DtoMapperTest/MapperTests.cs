@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Xunit;
 using DtoMapper;
 
@@ -7,98 +8,112 @@ namespace DtoMapperTest
 {
     public class MapperTests
     {
-        [Fact]
-        public void Map_WhenValueTypesAreEqual_ShouldAssignTheSameValue()
+        [Theory]
+        [InlineData(1234)]
+        public void Map_WhenValueTypesAreEqual_ShouldAssignTheSameValue(int valueToTest)
         {
+            //arrange
+            Mapper underTest = new Mapper();
+            Source source = new Source() {EqualValueTypeProperty = valueToTest};
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
-            var expected = 1234;
-            source.EqualValueTypeProperty = expected;
-
-            var actual = mapper.Map<Source, Destination>(source).EqualValueTypeProperty;
+            //assert
+            var expected = valueToTest;
+            var actual = result.EqualValueTypeProperty;
 
             Assert.Equal(expected, actual);
-
         }
 
-        [Fact]
-        public void Map_WhenValueTypesCanBeCast_ShouldAssignTheSameValue()
+        [Theory]
+        [InlineData(1234.4321F)]
+        public void Map_WhenValueTypesCanBeCast_ShouldAssignTheSameValue(float valueToTest)
         {
+            //arrange
+            Mapper underTest = new Mapper();
+            Source source = new Source() { CastValueTypeProperty = valueToTest };
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
-            var expected = 1234.4321F;
-            source.CastValueTypeProperty = expected;
-
-            var actual = mapper.Map<Source, Destination>(source).CastValueTypeProperty;
+            //assert
+            var expected = valueToTest;
+            var actual = result.CastValueTypeProperty;
 
             Assert.Equal(expected, actual);
-
         }
 
-        [Fact]
-        public void Map_WhenValueTypesCanNotBeCast_ShouldBeZero()
+        [Theory]
+        [InlineData(123456789)]
+        public void Map_WhenValueTypesCanNotBeCast_ShouldBeZero(long valueToTest)
         {
+            //arrange
+            Mapper underTest = new Mapper();
+            Source source = new Source() { NotCastTypeProperty = valueToTest };
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
+            //assert
             var expected = 0;
-            source.NotCastTypeProperty = 123456789;
-
-            var actual = mapper.Map<Source, Destination>(source).NotCastTypeProperty;
+            var actual = result.NotCastTypeProperty;
 
             Assert.Equal(expected, actual);
-
         }
 
         [Fact]
         public void Map_WhenRefTypesAreEqual_ShouldAssignTheSameValue()
         {
+            //arrange
+            List<int> valueToTest = new List<int>();
+            Mapper underTest = new Mapper();
+            Source source = new Source() { EqualRefTypeProperty = valueToTest };
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
-            var expected = new List<int>();
-            source.EqualRefTypeProperty = expected;
-
-            var actual = mapper.Map<Source, Destination>(source).EqualRefTypeProperty;
+            //assert
+            var expected = valueToTest;
+            var actual = result.EqualRefTypeProperty;
 
             Assert.Equal(expected, actual);
-
         }
 
         [Fact]
         public void Map_WhenRefTypesCanBeCast_ShouldAssignTheSameValue()
         {
+            //arrange
+            List<int> valueToTest = new List<int>();
+            Mapper underTest = new Mapper();
+            Source source = new Source() { BaseRefTypeProperty = valueToTest };
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
-            var expected = new List<int>();
-            source.BaseRefTypeProperty = expected;
-
-            var actual = mapper.Map<Source, Destination>(source).BaseRefTypeProperty;
+            //assert
+            var expected = valueToTest;
+            var actual = result.BaseRefTypeProperty;
 
             Assert.Equal(expected, actual);
-
         }
 
         [Fact]
         public void Map_WhenRefTypesCanNotBeCast_ShouldBeNull()
         {
+            //arrange
+            DateTime valueToTest = new DateTime();
+            Mapper underTest = new Mapper();
+            Source source = new Source() { DifferentRefTypeProperty = valueToTest };
 
-            Mapper mapper = new Mapper();
-            Source source = new Source();
+            //act
+            var result = underTest.Map<Source, Destination>(source);
 
-            source.DifferentRefTypeProperty = new DateTime();
+            //assert
+            StringBuilder expected = null;
+            var actual = result.DifferentRefTypeProperty;
 
-            var actual = mapper.Map<Source, Destination>(source).DifferentRefTypeProperty;
-            Assert.Equal(null, actual);
-
+            Assert.Equal(expected, actual);
         }
 
     }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using DtoMapper.Mapping;
-using DtoMapper.TypeConversion;
 
 namespace DtoMapper.FunctionCompiler
 {
@@ -14,10 +11,9 @@ namespace DtoMapper.FunctionCompiler
         {
             MappingExpressionTree<TSource, TDestination> expressionTree = new MappingExpressionTree<TSource, TDestination>();
             PropertyMapper<TSource, TDestination> propertyMapper = new PropertyMapper<TSource, TDestination>();
-            IEnumerable<MappingPair> mapPairs = propertyMapper.PerformMapping();
 
-            Func<TSource, TDestination> compiledFunction = expressionTree.Create(mapPairs).Compile();
-            return compiledFunction;
+            IEnumerable<MappingPair> mapPairs = propertyMapper.PerformMapping();
+            return expressionTree.Create(mapPairs).Compile();
         }
 
     }
