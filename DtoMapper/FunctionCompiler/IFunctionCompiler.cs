@@ -2,8 +2,8 @@
 
 namespace DtoMapper.FunctionCompiler
 {
-    internal interface IFunctionCompiler
+    public interface IFunctionCompiler
     {
-        Func<TSource, TDestination> GetMappingFunction<TSource, TDestination>() where TDestination : new();
+        Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new();
     }
 }
