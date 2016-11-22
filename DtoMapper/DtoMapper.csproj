@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FunctionCompiler\CashFunctionCompiler.cs" />
-    <Compile Include="FunctionCompiler\IFunctionCompiler.cs" />
-    <Compile Include="FunctionCompiler\FunctionCompiler.cs" />
+    <Compile Include="Compiler\CashFunctionCompiler.cs" />
+    <Compile Include="Compiler\IFunctionCompiler.cs" />
+    <Compile Include="Compiler\FunctionCompiler.cs" />
     <Compile Include="Mapping\PropertyMapper.cs" />
     <Compile Include="Mapping\MappingPair.cs" />
     <Compile Include="Mapping\MappingExpressionTree.cs" />

@@ -1,5 +1,5 @@
 ﻿using System;
-using DtoMapper.FunctionCompiler;
+using DtoMapper.Compiler;
 
 namespace DtoMapper
 {

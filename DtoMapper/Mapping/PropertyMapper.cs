@@ -5,7 +5,7 @@ using DtoMapper.TypeConversion;
 
 namespace DtoMapper.Mapping
 {
-    class PropertyMapper<TSource, TDestination> where TDestination : new()
+    public class PropertyMapper<TSource, TDestination> where TDestination : new()
     {
         private const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
         private IEnumerable<MappingPair> mappingProperties;

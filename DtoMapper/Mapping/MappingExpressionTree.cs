@@ -19,6 +19,9 @@ namespace DtoMapper.Mapping
 
         public Expression<Func<TSource, TDestination>> Create(IEnumerable<MappingPair> mappingPairs) 
         {
+            if(mappingPairs == null)
+                throw new ArgumentNullException();
+
             foreach (MappingPair mapPair in mappingPairs)
             {
                 MemberExpression sourceValue = Expression.Property(expressionParameter, mapPair.Source);

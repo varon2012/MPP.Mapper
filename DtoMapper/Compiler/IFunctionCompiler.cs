@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DtoMapper.FunctionCompiler
+namespace DtoMapper.Compiler
 {
     public interface IFunctionCompiler
     {

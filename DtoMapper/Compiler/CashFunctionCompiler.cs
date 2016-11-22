@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DtoMapper.FunctionCompiler
+namespace DtoMapper.Compiler
 {
     public class CashFunctionCompiler : IFunctionCompiler
     {
@@ -17,31 +17,31 @@ namespace DtoMapper.FunctionCompiler
         public Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new()
         {
             KeyValuePair<Type, Type> key = new KeyValuePair<Type, Type>(typeof(TSource), typeof(TDestination));
-            Func<TSource, TDestination> mappingFunction = GetFromCash<TSource,TDestination>(key);
 
-            if (mappingFunction == null)
+            if (IsInCash(key))
             {
-                mappingFunction = functionCompiler.CompileMappingFunction<TSource, TDestination>();
-                PushToCash(key, mappingFunction);
+                return GetFromCash<TSource, TDestination>(key);
             }
 
+            Func<TSource, TDestination> mappingFunction = functionCompiler.CompileMappingFunction<TSource, TDestination>();
+            PushToCash(key, mappingFunction);
+            
             return mappingFunction;
+        }
+
+        private bool IsInCash(KeyValuePair<Type, Type> key)
+        {
+            return functionCash.ContainsKey(key);
         }
 
         private void PushToCash(KeyValuePair<Type, Type> key, Delegate value)
         { 
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            if (!functionCash.ContainsKey(key))
-            {
-                functionCash.Add(key, value);
-            }
+            functionCash.Add(key, value);
         }
 
         private Func<TSource, TDestination> GetFromCash<TSource, TDestination>(KeyValuePair<Type, Type> key)
         {
-            return functionCash.ContainsKey(key) ? (Func<TSource, TDestination>)functionCash[key] : null;
+            return (Func<TSource, TDestination>)functionCash[key];
         }
     }
 }

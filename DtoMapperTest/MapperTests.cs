@@ -8,11 +8,11 @@ namespace DtoMapperTest
 {
     public class MapperTests
     {
-        [Theory]
-        [InlineData(1234)]
-        public void Map_WhenValueTypesAreEqual_ShouldAssignTheSameValue(int valueToTest)
+        [Fact]
+        public void Map_WhenValueTypesAreEqual_ShouldAssignTheSameValue()
         {
             //arrange
+            int valueToTest = 1234;
             Mapper underTest = new Mapper();
             Source source = new Source() {EqualValueTypeProperty = valueToTest};
 
@@ -26,11 +26,11 @@ namespace DtoMapperTest
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData(1234.4321F)]
-        public void Map_WhenValueTypesCanBeCast_ShouldAssignTheSameValue(float valueToTest)
+        [Fact]
+        public void Map_WhenValueTypesCanBeCast_ShouldAssignTheSameValue()
         {
             //arrange
+            float valueToTest = 1234.4321F;
             Mapper underTest = new Mapper();
             Source source = new Source() { CastValueTypeProperty = valueToTest };
 
@@ -44,11 +44,11 @@ namespace DtoMapperTest
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData(123456789)]
-        public void Map_WhenValueTypesCanNotBeCast_ShouldBeZero(long valueToTest)
+        [Fact]
+        public void Map_WhenValueTypesCanNotBeCast_ShouldBeZero()
         {
             //arrange
+            long valueToTest = 123456789;
             Mapper underTest = new Mapper();
             Source source = new Source() { NotCastTypeProperty = valueToTest };
 
@@ -114,6 +114,16 @@ namespace DtoMapperTest
             var actual = result.DifferentRefTypeProperty;
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Create_WhenInputDataIncorrect_ShouldThrowException()
+        {
+            //arrange
+            Mapper underTest = new Mapper(); ;
+
+            //assert
+            Assert.Throws<ArgumentNullException>(() => underTest.Map<Source, Destination>(null));
         }
 
     }

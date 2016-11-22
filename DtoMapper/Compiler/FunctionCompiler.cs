@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DtoMapper.Mapping;
 
-namespace DtoMapper.FunctionCompiler
+namespace DtoMapper.Compiler
 {
     public class FunctionCompiler : IFunctionCompiler
     {
