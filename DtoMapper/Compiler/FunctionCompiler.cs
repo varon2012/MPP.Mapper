@@ -6,7 +6,6 @@ namespace DtoMapper.Compiler
 {
     public class FunctionCompiler : IFunctionCompiler
     {
-
         public Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new()
         {
             MappingExpressionTree<TSource, TDestination> expressionTree = new MappingExpressionTree<TSource, TDestination>();
@@ -15,6 +14,5 @@ namespace DtoMapper.Compiler
             IEnumerable<MappingPair> mapPairs = propertyMapper.PerformMapping();
             return expressionTree.Create(mapPairs).Compile();
         }
-
     }
 }

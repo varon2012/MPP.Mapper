@@ -23,5 +23,19 @@ namespace DtoMapperTest.Mapping
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void Mapping_WhenInvokeSeveralTimes_ShouldReturnEqualRefferences()
+        {
+            //arrange
+            PropertyMapper<Source, Destination> underTest = new PropertyMapper<Source, Destination>();
+
+            //act
+            var firstInvoke = underTest.PerformMapping();
+            var secondInvoke = underTest.PerformMapping();
+
+            //assert
+            Assert.True(firstInvoke == secondInvoke);
+        }
     }
 }

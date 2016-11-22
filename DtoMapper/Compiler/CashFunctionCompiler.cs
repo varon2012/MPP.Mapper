@@ -8,10 +8,14 @@ namespace DtoMapper.Compiler
         private readonly IFunctionCompiler functionCompiler;
         private readonly Dictionary<KeyValuePair<Type, Type>, Delegate> functionCash;
 
-        public CashFunctionCompiler()
+        public CashFunctionCompiler() : this(new FunctionCompiler())
         {
-            functionCompiler = new FunctionCompiler();
             functionCash = new Dictionary<KeyValuePair<Type, Type>, Delegate>();
+        }
+
+        public CashFunctionCompiler(IFunctionCompiler functionCompiler)
+        {
+            this.functionCompiler = functionCompiler;
         }
 
         public Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new()

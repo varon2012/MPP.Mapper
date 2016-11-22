@@ -7,9 +7,14 @@ namespace DtoMapper
     {
         private readonly IFunctionCompiler functionCompiler;
 
-        public Mapper()
+        public Mapper() : this(new CashFunctionCompiler())
         {
-            functionCompiler = new CashFunctionCompiler();
+
+        }
+
+        public Mapper(IFunctionCompiler functionaCompiler)
+        {
+            this.functionCompiler = functionaCompiler;
         }
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
