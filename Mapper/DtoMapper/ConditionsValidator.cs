@@ -23,6 +23,91 @@ namespace DtoMapper
         private readonly IEnumerable<PropertyInfo> _sourceProperties;
         private readonly IEnumerable<PropertyInfo> _destinationProperties;
 
+        private static readonly Dictionary<TypeCode, TypeCode[]> ConvertableTypes =
+            new Dictionary<TypeCode, TypeCode[]>
+            {
+                {
+                    TypeCode.Char,
+                    new[]
+                    {
+                        TypeCode.UInt16, TypeCode.Int32, TypeCode.UInt32,
+                        TypeCode.Int64, TypeCode.UInt64, TypeCode.Single,
+                        TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.SByte,
+                    new[]
+                    {
+                        TypeCode.Int16, TypeCode.Int32, TypeCode.Int64,
+                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.Byte,
+                    new[]
+                    {
+                        TypeCode.Int16, TypeCode.UInt16, TypeCode.Int32,
+                        TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
+                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.Int16,
+                    new[]
+                    {
+                        TypeCode.Int32, TypeCode.Int64, TypeCode.Single,
+                        TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.UInt16,
+                    new[]
+                    {
+                        TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64,
+                        TypeCode.UInt64, TypeCode.Single, TypeCode.Double,
+                        TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.Int32,
+                    new[]
+                    {
+                        TypeCode.Int64, TypeCode.Single, TypeCode.Double,
+                        TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.UInt32,
+                    new[]
+                    {
+                        TypeCode.Int64, TypeCode.UInt64, TypeCode.Single,
+                        TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.Int64,
+                    new[]
+                    {
+                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.UInt64,
+                    new[]
+                    {
+                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
+                    }
+                },
+                {
+                    TypeCode.Single,
+                    new[]
+                    {
+                        TypeCode.Double
+                    }
+                }
+            };
+
         internal ConditionsValidator(
             IEnumerable<PropertyInfo> sourceProperties,
             IEnumerable<PropertyInfo> destinationProperties)
@@ -36,7 +121,7 @@ namespace DtoMapper
             return (from sourceProperty in _sourceProperties
                     join destinationProperty in _destinationProperties
                         on sourceProperty.Name equals destinationProperty.Name
-                    where 
+                    where
                         destinationProperty.CanWrite &&
                         IsConvertibleTypes(sourceProperty.PropertyType, destinationProperty.PropertyType)
                     select new PropertiesPair(sourceProperty, destinationProperty))
@@ -89,73 +174,8 @@ namespace DtoMapper
             var sourceTypeCode = Type.GetTypeCode(source);
             var destTypeCode = Type.GetTypeCode(destination);
 
-            switch (sourceTypeCode)
-            {
-                case TypeCode.Char:
-                    return new[]
-                    {
-                        TypeCode.UInt16, TypeCode.Int32, TypeCode.UInt32,
-                        TypeCode.Int64, TypeCode.UInt64, TypeCode.Single,
-                        TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.SByte:
-                    return new[]
-                    {
-                        TypeCode.Int16, TypeCode.Int32, TypeCode.Int64,
-                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.Byte:
-                    return new[]
-                    {
-                        TypeCode.Int16, TypeCode.UInt16, TypeCode.Int32,
-                        TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
-                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.Int16:
-                    return new[]
-                    {
-                        TypeCode.Int32, TypeCode.Int64, TypeCode.Single,
-                        TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.UInt16:
-                    return new[]
-                    {
-                        TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64,
-                        TypeCode.UInt64, TypeCode.Single, TypeCode.Double,
-                        TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.Int32:
-                    return new[]
-                    {
-                        TypeCode.Int64, TypeCode.Single, TypeCode.Double,
-                        TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.UInt32:
-                    return new[]
-                    {
-                        TypeCode.Int64, TypeCode.UInt64, TypeCode.Single,
-                        TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.Int64:
-                case TypeCode.UInt64:
-                    return new[]
-                    {
-                        TypeCode.Single, TypeCode.Double, TypeCode.Decimal
-                    }.Contains(destTypeCode);
-
-                case TypeCode.Single:
-                    return destTypeCode == TypeCode.Double;
-
-                default:
-                    return false;
-            }
+            TypeCode[] convertableTypes;
+            return ConvertableTypes.TryGetValue(sourceTypeCode, out convertableTypes) && convertableTypes.Contains(destTypeCode);
         }
     }
 }

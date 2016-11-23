@@ -41,7 +41,9 @@ namespace DtoMapper.Tests
         {
             var mapper = new Mapper();
 
-            Assert.Throws<ArgumentNullException>(() => mapper.Map<object, object>(null));
+            TestDelegate act = () => mapper.Map<object, object>(null);
+
+            Assert.Throws<ArgumentNullException>(act);
         }
 
         [Test]
