@@ -4,23 +4,16 @@ using System.Linq.Expressions;
 
 namespace DtoMapper.Mapping
 {
-    public class MappingExpressionTree<TSource, TDestination> where TDestination : new()
+    public class ExpressionTreeGenerator<TSource, TDestination> where TDestination : new()
     {
-        private readonly ParameterExpression expressionParameter;
-        private readonly NewExpression destinationCreation;
-        private readonly List<MemberBinding> destinationInitialization;
-
-        public MappingExpressionTree()
-        {
-            expressionParameter = Expression.Parameter(typeof(TSource), "source");
-            destinationCreation = Expression.New(typeof(TDestination));
-            destinationInitialization = new List<MemberBinding>();
-        }
-
         public Expression<Func<TSource, TDestination>> Create(IEnumerable<MappingPair> mappingPairs) 
         {
             if(mappingPairs == null)
                 throw new ArgumentNullException();
+
+            ParameterExpression expressionParameter = Expression.Parameter(typeof(TSource), "source");
+            NewExpression destinationCreation = Expression.New(typeof(TDestination));
+            List<MemberBinding> destinationInitialization = new List<MemberBinding>();
 
             foreach (MappingPair mapPair in mappingPairs)
             {

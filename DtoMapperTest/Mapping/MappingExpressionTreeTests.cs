@@ -14,7 +14,7 @@ namespace DtoMapperTest.Mapping
         public void Create_WhenInputDataCorrect_ShouldReturnCorrectFunction()
         {
             //arrange
-            MappingExpressionTree<Source, Destination> underTest = new MappingExpressionTree<Source, Destination>();
+            ExpressionTreeGenerator<Source, Destination> underTest = new ExpressionTreeGenerator<Source, Destination>();
             var valueToTest = TestDataFactory.CreatePropertyList();
             Source parameter = new Source()
             {
@@ -49,7 +49,7 @@ namespace DtoMapperTest.Mapping
         public void Create_WhenInputDataIncorrect_ShouldThrowException()
         {
             //arrange
-            MappingExpressionTree<Source, Destination> underTest = new MappingExpressionTree<Source, Destination>();
+            ExpressionTreeGenerator<Source, Destination> underTest = new ExpressionTreeGenerator<Source, Destination>();
 
             //assert
             Assert.Throws<ArgumentNullException>(() => underTest.Create(null));

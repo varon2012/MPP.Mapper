@@ -10,12 +10,16 @@ namespace DtoMapper.Compiler
 
         public CashFunctionCompiler() : this(new FunctionCompiler())
         {
-            functionCash = new Dictionary<KeyValuePair<Type, Type>, Delegate>();
+            
         }
 
         public CashFunctionCompiler(IFunctionCompiler functionCompiler)
         {
+            if(functionCompiler == null)
+                throw new ArgumentNullException(nameof(functionCompiler));
+
             this.functionCompiler = functionCompiler;
+            functionCash = new Dictionary<KeyValuePair<Type, Type>, Delegate>();
         }
 
         public Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new()

@@ -14,6 +14,9 @@ namespace DtoMapper
 
         public Mapper(IFunctionCompiler functionaCompiler)
         {
+            if(functionaCompiler == null)
+                throw new ArgumentNullException(nameof(functionaCompiler));
+
             this.functionCompiler = functionaCompiler;
         }
 

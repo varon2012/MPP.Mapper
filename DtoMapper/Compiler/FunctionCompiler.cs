@@ -8,11 +8,11 @@ namespace DtoMapper.Compiler
     {
         public Func<TSource, TDestination> CompileMappingFunction<TSource, TDestination>() where TDestination : new()
         {
-            MappingExpressionTree<TSource, TDestination> expressionTree = new MappingExpressionTree<TSource, TDestination>();
+            ExpressionTreeGenerator<TSource, TDestination> expressionTreeGenerator = new ExpressionTreeGenerator<TSource, TDestination>();
             PropertyMapper<TSource, TDestination> propertyMapper = new PropertyMapper<TSource, TDestination>();
 
             IEnumerable<MappingPair> mapPairs = propertyMapper.PerformMapping();
-            return expressionTree.Create(mapPairs).Compile();
+            return expressionTreeGenerator.Create(mapPairs).Compile();
         }
     }
 }

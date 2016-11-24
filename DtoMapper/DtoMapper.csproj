@@ -45,7 +45,7 @@
     <Compile Include="Compiler\FunctionCompiler.cs" />
     <Compile Include="Mapping\PropertyMapper.cs" />
     <Compile Include="Mapping\MappingPair.cs" />
-    <Compile Include="Mapping\MappingExpressionTree.cs" />
+    <Compile Include="Mapping\ExpressionTreeGenerator.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
