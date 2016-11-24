@@ -30,9 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CacheableMapLambdaFactory.cs" />
+    <Compile Include="MapLambdaFactory.cs" />
     <Compile Include="ConditionsValidator.cs" />
+    <Compile Include="IMapLambdaFactory.cs" />
     <Compile Include="IMapper.cs" />
-    <Compile Include="CacheProvider.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

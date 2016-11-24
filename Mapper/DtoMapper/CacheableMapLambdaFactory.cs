@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DtoMapper
 {
-    internal class CacheProvider
+    internal sealed class CacheableMapLambdaFactory : IMapLambdaFactory
     {
         private sealed class TypesPair
         {
@@ -34,34 +34,34 @@ namespace DtoMapper
                 var sourceHash = obj.Source?.GetHashCode() ?? 0;
                 var destinationHash = obj.Destination?.GetHashCode() ?? 0;
 
+                var result = 17;
+
                 unchecked
                 {
-                    return 2147483647 * sourceHash ^ destinationHash;
+                    result = 31*result + sourceHash;
+                    result = 31*result + destinationHash;
+                    return result;
                 }
             }
         }
 
         private readonly Dictionary<TypesPair, Delegate> _cache;
+        private readonly IMapLambdaFactory _lambdaFactory;
 
-        private static readonly Lazy<CacheProvider> Lazy =
-            new Lazy<CacheProvider>(() => new CacheProvider());
-
-        internal static CacheProvider Instance => Lazy.Value;
-
-        private CacheProvider()
+        public CacheableMapLambdaFactory()
         {
             _cache = new Dictionary<TypesPair, Delegate>(new TypesPairComparer());
+            _lambdaFactory = new MapLambdaFactory();
         }
 
-        public Func<TSource, TDestination> GetOrAddToCache<TSource, TDestination>(
-            Func<Func<TSource, TDestination>> expression)
+        public Func<TSource, TDestination> CreateLambda<TSource, TDestination>()
         {
             Delegate lambda;
             var typesPair = new TypesPair(typeof(TSource), typeof(TDestination));
 
             if (!_cache.TryGetValue(typesPair, out lambda))
             {
-                lambda = expression();
+                lambda = _lambdaFactory.CreateLambda<TSource, TDestination>();
                 _cache[typesPair] = lambda;
             }
 
