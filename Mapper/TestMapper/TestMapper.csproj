@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyValidationTest\PropertyValidationTest.cs" />
     <Compile Include="ReflectionTest\ReflectionParserTest.cs" />
     <Compile Include="TestSourceDest\Destination.cs" />
     <Compile Include="SimpleTest\MapperTest.cs" />

@@ -27,6 +27,10 @@ namespace Mapper.Reflection
 
         public PropertyInfo[] GetProperties(Type type)
         {
+            if (type == null)
+            {
+                return null;
+            }
             return type.GetProperties(BindingFlags.Public
                                                 | BindingFlags.SetProperty
                                                 | BindingFlags.Instance);
