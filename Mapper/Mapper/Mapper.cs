@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Mapper.Contracts;
+using Mapper.Reflection;
 
 namespace Mapper
 {
@@ -13,7 +14,7 @@ namespace Mapper
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
             var properties = new ReflectionParser().GetSameProperties<TSource, TDestination>();
-            Func<TSource, TDestination> func = new ExpressionCreator().CreateLambdaExpression<TSource, TDestination>(properties);
+            Func<TSource, TDestination> func = new ExpressionCreator.ExpressionCreator().CreateLambdaExpression<TSource, TDestination>(properties);
             return func.Invoke(source);
         }
     }

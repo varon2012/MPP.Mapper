@@ -23,7 +23,7 @@ namespace TestMapper
 
     public class Source
     {
-        public int FirstProperty { get; set; }
+        public byte FirstProperty { get; set; }
         public string SecondProperty { get; set; }
     }
 
