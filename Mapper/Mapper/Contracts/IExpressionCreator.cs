@@ -10,7 +10,7 @@ using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Contracts
 {
-    internal interface IExpressionCreator
+    public interface IExpressionCreator
     {
         Func<TSource, TDestination> CreateLambdaExpression<TSource, TDestination>(
             IEnumerable<TwoValuesPair<PropertyInfo, PropertyInfo>> properties) where TDestination : new();

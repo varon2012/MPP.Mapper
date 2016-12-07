@@ -5,10 +5,11 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Mapper.Contracts;
 
 namespace Mapper.Reflection
 {
-    internal class PropertyValidation
+    internal class PropertyValidation : IValidator
     { 
         private static readonly Lazy<PropertyValidation> instance = new Lazy<PropertyValidation>( () => new PropertyValidation() );
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mapper.Contracts;
+using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Cache
 {
@@ -10,7 +11,7 @@ namespace Mapper.Cache
 
         private CachedLambdas()
         {
-            cachedLambdas = new Dictionary<CachedTypes, Delegate>();
+            cachedLambdas = new Dictionary<TwoValuesPair<Type, Type>, Delegate>();
         }
 
         public static CachedLambdas GetInstance()
@@ -18,9 +19,9 @@ namespace Mapper.Cache
             return instance.Value;
         }
 
-        private readonly Dictionary<CachedTypes, Delegate> cachedLambdas;
+        private readonly Dictionary<TwoValuesPair<Type, Type>, Delegate> cachedLambdas;
 
-        public Delegate GetLambda(CachedTypes key)
+        public Delegate GetLambda(TwoValuesPair<Type, Type> key)
         {
             try
             {
@@ -32,12 +33,12 @@ namespace Mapper.Cache
             }
         }
 
-        public void AddLambda(CachedTypes key, Delegate value)
+        public void AddLambda(TwoValuesPair<Type, Type> key, Delegate value)
         {
             cachedLambdas.Add(key, value);
         }
 
-        public bool ContainsKey(CachedTypes key)
+        public bool ContainsKey(TwoValuesPair<Type, Type> key)
         {
             return cachedLambdas.ContainsKey(key);
         }

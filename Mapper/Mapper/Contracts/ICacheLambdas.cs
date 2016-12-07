@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mapper.Cache;
+using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Contracts
 {
-    interface ICacheLambdas
+    public interface ICacheLambdas
     {
-        Delegate GetLambda(CachedTypes key);
-        void AddLambda(CachedTypes key, Delegate value);
-        bool ContainsKey(CachedTypes key);
+        Delegate GetLambda(TwoValuesPair<Type, Type> key);
+        void AddLambda(TwoValuesPair<Type, Type> key, Delegate value);
+        bool ContainsKey(TwoValuesPair<Type, Type> key);
     }
 }

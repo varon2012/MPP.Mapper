@@ -27,11 +27,7 @@ namespace Mapper.Reflection
                 {
                     if (validator.IsCanMap(sourceProperty, destinationProperty))
                     {
-                        resultProperties.Add(new TwoValuesPair<PropertyInfo, PropertyInfo>()
-                        {
-                            Source = sourceProperty,
-                            Destination = destinationProperty
-                        });
+                        resultProperties.Add(new TwoValuesPair<PropertyInfo, PropertyInfo>(sourceProperty, destinationProperty));
                         break;
                     }
                 }

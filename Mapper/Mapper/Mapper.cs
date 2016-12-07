@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mapper.Cache;
 using Mapper.Contracts;
+using Mapper.PropertyInfoStorage;
 using Mapper.Reflection;
 
 namespace Mapper
@@ -25,12 +26,17 @@ namespace Mapper
         }
 
         private readonly CachedLambdas cachedLambdas;
-        private CachedTypes cachedTypes;
+        private TwoValuesPair<Type, Type> cachedTypes;
 
 
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
-            cachedTypes = new CachedTypes(typeof(TSource), typeof(TDestination));
+            if (source == null)
+            {
+                return default(TDestination);
+            }
+
+            cachedTypes = new TwoValuesPair<Type, Type>(typeof(TSource), typeof(TDestination));
 
             if (IsCacheExist())
             {

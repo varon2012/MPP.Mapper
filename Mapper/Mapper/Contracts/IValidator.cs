@@ -4,12 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Contracts
 {
-    public interface IReflectionParser
+    public interface IValidator
     {
-        List<TwoValuesPair<PropertyInfo, PropertyInfo>> GetSameProperties<TSource, TDestination>();
+        PropertyInfo[] GetProperties(Type type);
+        bool IsCanMap(PropertyInfo sourceProperty, PropertyInfo destinationProperty);
     }
 }
