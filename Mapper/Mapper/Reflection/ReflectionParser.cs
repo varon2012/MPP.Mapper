@@ -6,7 +6,7 @@ using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Reflection
 {
-    internal class ReflectionParser : IReflectionParser
+    public class ReflectionParser : IReflectionParser
     {
         private readonly PropertyValidation validator;
 

@@ -9,7 +9,7 @@ using Mapper.Contracts;
 
 namespace Mapper.Reflection
 {
-    internal class PropertyValidation : IValidator
+    public class PropertyValidation : IValidator
     { 
         private static readonly Lazy<PropertyValidation> instance = new Lazy<PropertyValidation>( () => new PropertyValidation() );
         
