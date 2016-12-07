@@ -39,7 +39,5 @@ namespace Mapper.Reflection
 
             return resultProperties;
         }
-
-        
     }
 }

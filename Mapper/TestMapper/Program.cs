@@ -8,15 +8,20 @@ namespace TestMapper
 {
     class Program
     {
+        private static Mapper.Mapper mapper;
+
         static void Main(string[] args)
         {
+            mapper = Mapper.Mapper.GetInstance();
+
             var source = new Source()
             {
                 FirstProperty = 10,
                 SecondProperty = "lalka"
             };
 
-            var dest = new Mapper.Mapper().Map<Source, Destination>(source);
+            var dest = mapper.Map<Source, Destination>(source);
+            dest = mapper.Map<Source, Destination>(source);
             Console.ReadKey();
         }
     }

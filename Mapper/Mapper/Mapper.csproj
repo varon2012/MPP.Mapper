@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\CachedLambdas.cs" />
+    <Compile Include="Cache\CachedTypes.cs" />
+    <Compile Include="Contracts\ICacheLambdas.cs" />
     <Compile Include="Contracts\IExpressionCreator.cs" />
     <Compile Include="Contracts\IReflectionParser.cs" />
     <Compile Include="ExpressionCreator\ExpressionCreator.cs" />
