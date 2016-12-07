@@ -10,9 +10,10 @@ namespace Mapper
 {
     internal class ReflectionParser : IReflectionParser
     {
-        public List<PropertyInfo> GetSameProperties<TSource, TDestination>(TSource sourceType, TDestination destinationType)
+        public List<TwoValuesPair<PropertyInfo, PropertyInfo>> GetSameProperties<TSource, TDestination>()
         {
             var list = new List<PropertyInfo>();
+            var resultProperties = new List<TwoValuesPair<PropertyInfo, PropertyInfo>>();
             var sourceProperties = GetProperties(typeof(TSource));
             var destinationSource = GetProperties(typeof(TDestination));
             foreach (var sourceProperty in sourceProperties)
@@ -21,12 +22,16 @@ namespace Mapper
                 {
                     if (IsCanMap(sourceProperty, destinationProperty))
                     {
-                        list.Add(destinationProperty);
+                        resultProperties.Add(new TwoValuesPair<PropertyInfo, PropertyInfo>()
+                        {
+                            Source = sourceProperty,
+                            Destination = destinationProperty
+                        });
                         break;
                     }
                 }
             }
-            return list;
+            return resultProperties;
         }
 
         private PropertyInfo[] GetProperties(Type type)
@@ -46,6 +51,15 @@ namespace Mapper
             {
                 return false;
             }
+            if (!IsValidCast(sourceProperty.PropertyType, destinationProperty.PropertyType))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsValidCast(Type source, Type destination)
+        {
             return true;
         }
     }

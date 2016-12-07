@@ -12,8 +12,9 @@ namespace Mapper
     {
         public TDestination Map<TSource, TDestination>(TSource source) where TDestination : new()
         {
-            var typeSource = typeof(TSource);
-            return default(TDestination);
+            var properties = new ReflectionParser().GetSameProperties<TSource, TDestination>();
+            Func<TSource, TDestination> func = new ExpressionCreator().CreateLambdaExpression<TSource, TDestination>(properties);
+            return func.Invoke(source);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Mapper.Contracts
 {
     interface IReflectionParser
     {
-        List<PropertyInfo> GetSameProperties<TSource, TDestination>(TSource sourceType, TDestination destinationType);
+        List<TwoValuesPair<PropertyInfo, PropertyInfo>> GetSameProperties<TSource, TDestination>();
     }
 }
