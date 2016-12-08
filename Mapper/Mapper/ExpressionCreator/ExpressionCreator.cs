@@ -11,6 +11,11 @@ namespace Mapper.ExpressionCreator
     {
         public Func<TSource, TDestination> CreateLambdaExpression<TSource, TDestination>(IEnumerable<TwoValuesPair<PropertyInfo, PropertyInfo>> properties) where TDestination : new ()
         {
+            if (properties == null)
+            {
+                return null;
+            }
+
             var parameter = Expression.Parameter(typeof(TSource), "source");
             IEnumerable<MemberBinding> bindings = CreateBindings(properties, parameter);
 

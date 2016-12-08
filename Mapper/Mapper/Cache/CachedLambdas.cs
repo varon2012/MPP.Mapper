@@ -5,7 +5,7 @@ using Mapper.PropertyInfoStorage;
 
 namespace Mapper.Cache
 {
-    internal class CachedLambdas : ICacheLambdas
+    public class CachedLambdas : ICacheLambdas
     {
         private static readonly Lazy<CachedLambdas> instance = new Lazy<CachedLambdas>(() => new CachedLambdas());
 
